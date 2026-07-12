@@ -1,0 +1,34 @@
+#!/bin/bash
+# ==============================================================================
+# BSTM ELOS v1.0 - PRE-COMMIT COGNITIVE LOOP GATEKEEPER
+# Ensures no incomplete evidence or non-compliant files enter institutional memory.
+# After cloning: cp hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+# ==============================================================================
+
+STAGED_TRIALS=$(git diff --cached --name-only | grep "02_trial_intelligence/.*\.md")
+if [ -z "$STAGED_TRIALS" ]; then
+    exit 0
+fi
+
+echo "BSTM ELOS: Auditing incoming trial artifacts..."
+for FILE in $STAGED_TRIALS; do
+    if ! grep -q "## Raw Evidence" "$FILE"; then
+        echo "FAILURE in $FILE: Missing section '## Raw Evidence'."
+        exit 1
+    fi
+    if ! grep -q "## Interpretation" "$FILE"; then
+        echo "FAILURE in $FILE: Missing section '## Interpretation'."
+        exit 1
+    fi
+    if ! grep -q "Final:" "$FILE"; then
+        echo "FAILURE in $FILE: Missing 'Final:' confidence metric."
+        exit 1
+    fi
+    if ! grep -q "\- Related Trials:" "$FILE"; then
+        echo "FAILURE in $FILE: Missing 'Related Trials' mapping metadata."
+        exit 1
+    fi
+done
+
+echo "Validation successful. Compiling metrics dashboard..."
+python3 scripts/compile_scorecard.py

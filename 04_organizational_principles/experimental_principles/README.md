@@ -1,0 +1,1 @@
+-- No experimental or historical principles logged yet. First candidates will migrate here once a second trial exists for a given pattern (e.g. a second Multi-System trial confirming per-line accounting as an EXPERIMENTAL principle).
