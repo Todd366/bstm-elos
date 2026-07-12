@@ -7,7 +7,7 @@ trials_processed: 6
 # BSTM ELOS Dynamic Learning Scorecard
 
 ## 1. Core Cognitive Metrics
-*   **Belief Drift Velocity (delta B):** 1.17 points per assumption
+*   **Belief Drift Velocity (delta B):** 1.00 points per assumption
 *   **Predictive Accuracy (P_acc):** 83.3%
 *   **Systemic Learning Yield (Y_L):** 200.0%
 *   **Uncertainty Isolation Rate (U_rate):** 16.7%
