@@ -1,20 +1,20 @@
 /* sw.js — caches the app shell so ELOS works fully offline in the field.
    Bump CACHE_NAME whenever you ship changes, so old clients pick up the update. */
 
-const CACHE_NAME = 'elos-shell-v1';
+const CACHE_NAME = 'elos-shell-v2';
 const SHELL_FILES = [
   './',
   './index.html',
   './manifest.json',
-  './css/style.css',
-  './js/db.js',
-  './js/rooms.js',
-  './js/schema.js',
-  './js/markdown.js',
-  './js/scorecard.js',
-  './js/views.js',
-  './js/trialForm.js',
-  './js/app.js',
+  './style.css',
+  './db.js',
+  './rooms.js',
+  './schema.js',
+  './markdown.js',
+  './scorecard.js',
+  './views.js',
+  './trialForm.js',
+  './app.js',
   './icons/icon-192.png',
   './icons/icon-512.png',
 ];
