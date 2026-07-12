@@ -1,0 +1,15 @@
+{
+  "name": "BSTM ELOS — Evolutionary Learning Operating System",
+  "short_name": "ELOS",
+  "description": "Field intelligence app for the BSTM 100 Trials — capture evidence, structure trials, track learning.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b0e0d",
+  "theme_color": "#0b0e0d",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
