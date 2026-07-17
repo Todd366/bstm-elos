@@ -42,6 +42,8 @@ async function router() {
       setActiveNav('scorecard'); await renderScorecard(view);
     } else if (route === 'sentinel') {
       setActiveNav('sentinel'); await renderSentinel(view);
+    } else if (route === 'observations') {
+      await renderObservations(view);
     } else if (route === 'settings') {
       setActiveNav('settings'); await renderSettings(view);
     } else {

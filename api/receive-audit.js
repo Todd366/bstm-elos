@@ -10,9 +10,9 @@ module.exports = async function handler(req, res) {
   const source = ALLOWED_SOURCES.includes(body.source) ? body.source : "unknown";
   const now = new Date();
   const stamp = now.toISOString().replace(/:/g, "-").split(".")[0];
-  const path = `01b_app_telemetry/${source}/${stamp}.json`;
+  const path = `01_observations/${source}/${stamp}.json`;
   const record = { ...body, _receivedAt: now.toISOString(), _id: `${source}-${stamp}` };
 
-  const result = await commitJSON({ path, message: `Telemetry: ${source} @ ${now.toISOString()}`, record });
+  const result = await commitJSON({ path, message: `Observation: ${source} @ ${now.toISOString()}`, record });
   res.status(result.stored === false && result.error ? 502 : 200).json({ received: true, ...result, id: record._id });
 };
