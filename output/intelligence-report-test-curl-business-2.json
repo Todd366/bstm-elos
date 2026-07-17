@@ -1,0 +1,17 @@
+{
+  "businessId": "test-curl-business-2",
+  "businessName": "Test Curl Business 2",
+  "industry": "Retail",
+  "healthScore": 45,
+  "criticalProblems": 2,
+  "strengths": [],
+  "weaknesses": [
+    "Digital Presence",
+    "Financial Management"
+  ],
+  "detectedPatterns": [],
+  "recommendedDepartments": [],
+  "estimatedTimelineWeeks": 0,
+  "confidence": 65,
+  "generatedAt": "2026-07-17T12:16:59.644Z"
+}
