@@ -1,0 +1,24 @@
+{
+  "source": "business-health-audit",
+  "business": {
+    "name": "Test Curl Business",
+    "industry": "Retail",
+    "location": "Gaborone"
+  },
+  "scores": {
+    "overall": 45,
+    "categories": {
+      "Digital Presence": 20,
+      "Financial Management": 30
+    }
+  },
+  "diagnosis": {
+    "strengths": [],
+    "weaknesses": [
+      "Digital Presence",
+      "Financial Management"
+    ]
+  },
+  "_receivedAt": "2026-07-17T12:12:27.315Z",
+  "_id": "business-health-audit-2026-07-17T12-12-27"
+}
