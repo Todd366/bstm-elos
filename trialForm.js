@@ -371,7 +371,17 @@ function bindFormEvents(view) {
       return;
     }
     await persistTrial('submitted');
-    toast('Trial submitted ✓');
+    try {
+      const res = await fetch('/api/save-trial', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(_trialState),
+      });
+      const data = await res.json();
+      toast(data.stored ? 'Trial submitted ✓ (synced to ELOS)' : 'Trial submitted ✓ (saved locally only — sync pending)');
+    } catch {
+      toast('Trial submitted ✓ (saved locally only — offline)');
+    }
     location.hash = `#/trials/${_trialState.id}`;
   };
 }
