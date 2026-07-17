@@ -1,0 +1,24 @@
+{
+  "source": "business-health-audit",
+  "business": {
+    "name": "Bstm ",
+    "industry": "Tech",
+    "location": "Gaborone"
+  },
+  "diagnosis": {
+    "strengths": [
+      "Digital Presence",
+      "Marketing & Customer Growth",
+      "Operations",
+      "Technology Readiness",
+      "Customer Experience",
+      "Growth & Strategy"
+    ],
+    "weaknesses": [
+      "Financial Management"
+    ]
+  },
+  "timestamp": "2026-07-17T12:02:12.186Z",
+  "_receivedAt": "2026-07-17T12:02:13.799Z",
+  "_id": "business-health-audit-2026-07-17T12-02-13"
+}
