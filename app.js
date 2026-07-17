@@ -40,6 +40,8 @@ async function router() {
       setActiveNav('ecosystem'); await renderEcosystem(view);
     } else if (route === 'scorecard') {
       setActiveNav('scorecard'); await renderScorecard(view);
+    } else if (route === 'sentinel') {
+      setActiveNav('sentinel'); await renderSentinel(view);
     } else if (route === 'settings') {
       setActiveNav('settings'); await renderSettings(view);
     } else {

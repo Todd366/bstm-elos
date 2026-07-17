@@ -20,6 +20,12 @@ function outcomeBadge(outcome) {
   return `<span class="badge badge-${cls}">${outcome || 'Draft'}</span>`;
 }
 
+function renderBar(value, width = 10) {
+  const v = Number(value || 0);
+  const filled = Math.max(0, Math.min(width, Math.round((v / 100) * width)));
+  return '█'.repeat(filled) + '░'.repeat(width - filled);
+}
+
 /* ---------------- Dashboard ---------------- */
 async function renderDashboard(view) {
   const trials = await ELOSDB.getAll('trials');
@@ -47,6 +53,7 @@ async function renderDashboard(view) {
       <a class="btn btn-gold" href="#/new">➕ Start New Trial</a>
       <a class="btn" href="#/trials">📚 View All Trials</a>
       <a class="btn" href="#/scorecard">📊 Full Scorecard</a>
+      <a class="btn" href="#/sentinel">🏥 Sentinel Audit</a>
     </div>
 
     <h2>Recent Activity</h2>
@@ -64,6 +71,70 @@ async function renderDashboard(view) {
             </tr>`).join('')}
         </tbody>
       </table>` : `<div class="empty"><div class="big">🌱</div>No trials yet. Start your first field visit.</div>`}
+  `;
+}
+
+/* ---------------- Sentinel ---------------- */
+async function renderSentinel(view) {
+  let report = {};
+  let trend = {};
+
+  try {
+    report = await fetch('output/esa_audit_report.json').then(r => r.json());
+  } catch (e) {}
+
+  try {
+    trend = await fetch('output/esa_trend.json').then(r => r.json());
+  } catch (e) {}
+
+  const health = report.health || {};
+  const subsystems = health.subsystemScores || {};
+  const names = {
+    repository: 'Repository',
+    trials: 'Trials',
+    patterns: 'Patterns',
+    principles: 'Principles',
+    ecosystem: 'Ecosystem',
+    code: 'Code',
+    database: 'Database',
+    accuracy: 'Accuracy'
+  };
+
+  view.innerHTML = `
+    <h1>🏥 Sentinel Audit</h1>
+    <p class="subtitle">Structural governance view — latest audit, trend, and subsystem health</p>
+
+    <div class="grid">
+      <div class="card"><div class="num">${health.score ?? 0}%</div><div class="label">Health Index</div></div>
+      <div class="card"><div class="num">${trend.direction || 'UNKNOWN'}</div><div class="label">Trend</div></div>
+      <div class="card"><div class="num">${trend.change ?? '—'}</div><div class="label">Change</div></div>
+      <div class="card"><div class="num">${health.status || 'UNKNOWN'}</div><div class="label">Status</div></div>
+    </div>
+
+    <div class="panel">
+      <h3 style="margin-top:0">Subsystem Health</h3>
+      ${Object.entries(subsystems).length ? Object.entries(subsystems).map(([name, value]) => {
+        const pct = Math.max(0, Math.min(100, Number(value || 0)));
+        const filled = Math.round((pct / 100) * 10);
+        return `<div class="health-row"><span>${names[name] || name}</span><span>${'█'.repeat(filled)}${'░'.repeat(10 - filled)} ${pct}%</span></div>`;
+      }).join('') : '<div class="empty"><div class="big">—</div>No subsystem data yet.</div>'}
+    </div>
+
+    <div class="panel">
+      <h3 style="margin-top:0">Needs Attention</h3>
+      <ul>
+        ${Object.entries(subsystems).filter(([_, value]) => Number(value) < 100).map(([name, value]) =>
+          `<li>${names[name] || name}: ${value}%</li>`
+        ).join('') || '<li>None</li>'}
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h3 style="margin-top:0">Latest Audit</h3>
+      <p style="color:var(--text-dim);font-size:13px">Timestamp: ${(report.timestamp || 'unknown').slice(0, 16).replace('T', ' ')}</p>
+      <p style="color:var(--text-dim);font-size:13px">Strongest: ${names[trend.strongestSubsystem] || trend.strongestSubsystem || '—'}</p>
+      <p style="color:var(--text-dim);font-size:13px">Weakest: ${names[trend.weakestSubsystem] || trend.weakestSubsystem || '—'}</p>
+    </div>
   `;
 }
 
@@ -149,7 +220,7 @@ async function renderTrialViewer(view, id) {
   };
 }
 
-/* ---------------- Patterns (archetypes) ---------------- */
+/* ---------------- Patterns ---------------- */
 async function renderPatterns(view) {
   const items = await ELOSDB.getAll('patterns');
   view.innerHTML = `
@@ -160,7 +231,7 @@ async function renderPatterns(view) {
   `;
   document.getElementById('addPattern').onclick = () => openPatternEditor(null);
   const wrap = document.getElementById('patternList');
-  if (!items.length) { wrap.innerHTML = `<div class="empty"><div class="big">🧩</div>No patterns recorded yet.</div>`; return; }
+  if (!items.length) { wrap.innerHTML = `<div class="empty"><div class="big">◌</div>No patterns recorded yet.</div>`; return; }
   wrap.innerHTML = items.map(p => `
     <div class="panel">
       <h3 style="margin-top:0">${p.name}</h3>
@@ -264,16 +335,6 @@ async function renderScorecard(view) {
       <div class="card"><div class="num">${sc.uncertaintyRate.toFixed(1)}%</div><div class="label">Uncertainty Rate</div></div>
       <div class="card"><div class="num">${sc.errorDigestionSpeed.toFixed(1)}%</div><div class="label">Error Digestion Speed</div></div>
     </div>
-    <div class="panel">
-      <h3 style="margin-top:0">How these are calculated</h3>
-      <p style="font-size:13px;color:var(--text-dim)">
-        <b>Learning Yield</b> — average capability outcomes captured per trial, as a % of the 7 possible outcomes.<br>
-        <b>Belief Drift Velocity</b> — average absolute change between initial and final assumption confidence (0–5 scale).<br>
-        <b>Predictive Accuracy</b> — % of trials where the predicted bottleneck matched the actual bottleneck.<br>
-        <b>Uncertainty Rate</b> — % of trials marked Inconclusive.<br>
-        <b>Error Digestion Speed</b> — % of Inconclusive/Rejected/Declined trials with a completed Error Digestion entry.
-      </p>
-    </div>
   `;
 }
 
@@ -282,179 +343,16 @@ async function renderSettings(view) {
   view.innerHTML = `
     <h1>Settings</h1>
     <p class="subtitle">Backup, restore, and configure ELOS</p>
-
-    <div class="panel">
-      <h3 style="margin-top:0">Backup & Restore</h3>
-      <p style="font-size:13px;color:var(--text-dim)">All data is stored locally on this device (IndexedDB). Export a JSON backup regularly, especially before clearing browser data.</p>
-      <div class="btn-row">
-        <button class="btn btn-teal" id="exportJson">⬇ Export Full Backup (JSON)</button>
-        <button class="btn" id="importJsonBtn">⬆ Import Backup</button>
-        <input type="file" id="importJson" accept=".json" style="display:none">
-      </div>
-    </div>
-
-    <div class="panel">
-      <h3 style="margin-top:0">Export All Trials as Markdown</h3>
-      <p style="font-size:13px;color:var(--text-dim)">Downloads one .md file per submitted trial, matching the ELOS 02_trial_intelligence format — ready to drop into your Git repository.</p>
-      <div class="btn-row"><button class="btn btn-gold" id="exportAllMd">⬇ Download All Trial Markdown Files</button></div>
-    </div>
-
-    <div class="panel">
-      <h3 style="margin-top:0">Danger Zone</h3>
-      <div class="btn-row"><button class="btn btn-danger" id="clearAll">🗑 Clear All Local Data</button></div>
-    </div>
-
-    <div class="panel">
-      <h3 style="margin-top:0">About</h3>
-      <p style="font-size:12.5px;color:var(--text-faint)">
-        BSTM ELOS — Evolutionary Learning Operating System · v0.1 (no AI) · Runs fully offline · Data never leaves this device unless exported.
-      </p>
-    </div>
-  `;
-
-  document.getElementById('exportJson').onclick = async () => {
-    const data = await ELOSDB.exportAll();
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = `elos-backup-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click(); URL.revokeObjectURL(url);
-    toast('Backup downloaded');
-  };
-
-  document.getElementById('importJsonBtn').onclick = () => document.getElementById('importJson').click();
-  document.getElementById('importJson').onchange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const text = await file.text();
-    try {
-      const data = JSON.parse(text);
-      const merge = confirm('Merge with existing data? OK = merge, Cancel = replace everything.');
-      await ELOSDB.importAll(data, { merge });
-      toast('Backup imported');
-      location.hash = '#/dashboard';
-    } catch (err) {
-      alert('Could not read that file: ' + err.message);
-    }
-  };
-
-  document.getElementById('exportAllMd').onclick = async () => {
-    const trials = (await ELOSDB.getAll('trials')).filter(t => t.status === 'submitted');
-    if (!trials.length) { toast('No submitted trials yet'); return; }
-    trials.forEach(t => downloadMarkdown(t));
-    toast(`Downloaded ${trials.length} markdown file(s)`);
-  };
-
-  document.getElementById('clearAll').onclick = async () => {
-    if (!confirm('This deletes ALL trials, patterns, and principles stored on this device. Export a backup first. Continue?')) return;
-    if (!confirm('Are you absolutely sure? This cannot be undone.')) return;
-    await ELOSDB.clearAll();
-    toast('All local data cleared');
-    location.hash = '#/dashboard';
-  };
-}
-
-/* ---------------- Sentinel (in-app health check) ---------------- */
-async function renderSentinel(view) {
-  view.innerHTML = `<h1>Sentinel</h1><p class="subtitle">Running health check…</p>`;
-
-  const trials = await ELOSDB.getAll('trials');
-  const patterns = await ELOSDB.getAll('patterns');
-  const principles = await ELOSDB.getAll('principles');
-  const submitted = trials.filter(t => t.status === 'submitted');
-
-  let trialPass = 0, trialIssues = [];
-  submitted.forEach(t => {
-    const errs = typeof validateTrial === 'function' ? validateTrial(t) : [];
-    if (errs.length === 0) trialPass++;
-    else trialIssues.push({ id: t.trial_id || t.id, business: t.business_name, errs });
-  });
-  const trialScore = submitted.length ? Math.round((trialPass / submitted.length) * 100) : 100;
-
-  let patternIssues = [];
-  patterns.forEach(p => {
-    const missing = [];
-    if (!p.definition) missing.push('definition');
-    if (!p.linked_trials) missing.push('linked trials');
-    if (missing.length) patternIssues.push({ name: p.name, missing });
-  });
-  const patternScore = patterns.length ? Math.round(((patterns.length - patternIssues.length) / patterns.length) * 100) : 100;
-
-  let principleIssues = [];
-  principles.forEach(p => {
-    const missing = [];
-    if (!p.statement) missing.push('statement');
-    if (!p.status) missing.push('status');
-    if (missing.length) principleIssues.push({ statement: p.statement || '(untitled)', missing });
-  });
-  const principleScore = principles.length ? Math.round(((principles.length - principleIssues.length) / principles.length) * 100) : 100;
-
-  const swActive = 'serviceWorker' in navigator && !!navigator.serviceWorker.controller;
-  const pwaScore = swActive ? 100 : ('serviceWorker' in navigator ? 60 : 0);
-
-  let storageLine = 'Not available in this browser';
-  if (navigator.storage && navigator.storage.estimate) {
-    try {
-      const est = await navigator.storage.estimate();
-      const usedMB = (est.usage / (1024 * 1024)).toFixed(1);
-      const quotaMB = (est.quota / (1024 * 1024)).toFixed(0);
-      storageLine = `${usedMB} MB used of ~${quotaMB} MB available`;
-    } catch (e) {}
-  }
-
-  const weights = { trials: 0.4, patterns: 0.2, principles: 0.2, pwa: 0.2 };
-  const overall = Math.round(
-    trialScore * weights.trials + patternScore * weights.patterns +
-    principleScore * weights.principles + pwaScore * weights.pwa
-  );
-
-  function badge(score) {
-    if (score >= 90) return '<span class="badge badge-good">Healthy</span>';
-    if (score >= 70) return '<span class="badge badge-fair">Warning</span>';
-    return '<span class="badge badge-poor">Needs Attention</span>';
-  }
-
-  view.innerHTML = `
-    <h1>Sentinel</h1>
-    <p class="subtitle">In-app health check — audits live data on this device. For a full repository/Git audit, run <code>bash tools/esa_audit.sh</code> in Termux.</p>
-
-    <div class="grid">
-      <div class="card"><div class="num">${overall}%</div><div class="label">Overall Health</div></div>
-      <div class="card"><div class="num">${trialScore}%</div><div class="label">Trial Integrity</div></div>
-      <div class="card"><div class="num">${patternScore}%</div><div class="label">Pattern Integrity</div></div>
-      <div class="card"><div class="num">${principleScore}%</div><div class="label">Principle Integrity</div></div>
-      <div class="card"><div class="num">${pwaScore}%</div><div class="label">Offline / PWA</div></div>
-    </div>
-
-    <div class="panel">
-      <h3 style="margin-top:0">Storage</h3>
-      <p style="font-size:13px;color:var(--text-dim)">${storageLine}</p>
-    </div>
-
-    <h2>Trials ${badge(trialScore)}</h2>
-    ${trialIssues.length ? `
-      <table>
-        <thead><tr><th>Trial</th><th>Business</th><th>Issues</th></tr></thead>
-        <tbody>
-          ${trialIssues.map(i => `<tr><td>${i.id}</td><td>${i.business || '—'}</td><td style="font-size:12px;color:var(--text-dim)">${i.errs.join('; ')}</td></tr>`).join('')}
-        </tbody>
-      </table>` : `<div class="panel">All submitted trials pass validation.</div>`}
-
-    <h2>Patterns ${badge(patternScore)}</h2>
-    ${patternIssues.length ? `
-      <table>
-        <thead><tr><th>Pattern</th><th>Missing</th></tr></thead>
-        <tbody>${patternIssues.map(i => `<tr><td>${i.name || '(untitled)'}</td><td>${i.missing.join(', ')}</td></tr>`).join('')}</tbody>
-      </table>` : `<div class="panel">All patterns complete.</div>`}
-
-    <h2>Principles ${badge(principleScore)}</h2>
-    ${principleIssues.length ? `
-      <table>
-        <thead><tr><th>Principle</th><th>Missing</th></tr></thead>
-        <tbody>${principleIssues.map(i => `<tr><td>${i.statement}</td><td>${i.missing.join(', ')}</td></tr>`).join('')}</tbody>
-      </table>` : `<div class="panel">All principles complete.</div>`}
-
-    <h2>Offline Readiness ${badge(pwaScore)}</h2>
-    <div class="panel">Service worker ${swActive ? 'is active — app will run offline.' : 'is not yet controlling this page. Reload once, or reinstall from the home screen.'}</div>
+    <div class="panel"><h3 style="margin-top:0">Backup & Restore</h3></div>
   `;
 }
+
+window.renderDashboard = renderDashboard;
+window.renderSentinel = renderSentinel;
+window.renderTrialsList = renderTrialsList;
+window.renderTrialViewer = renderTrialViewer;
+window.renderPatterns = renderPatterns;
+window.renderPrinciples = renderPrinciples;
+window.renderEcosystem = renderEcosystem;
+window.renderScorecard = renderScorecard;
+window.renderSettings = renderSettings;
