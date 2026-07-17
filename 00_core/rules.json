@@ -1,0 +1,5 @@
+{
+  "weaknessScoreCutoff": 50,
+  "strengthScoreCutoff": 70,
+  "minObservationsForPattern": 3
+}

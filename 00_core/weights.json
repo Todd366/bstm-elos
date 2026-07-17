@@ -1,0 +1,5 @@
+{
+  "healthScoreBands": {"excellent":[85,100],"healthy":[70,84],"developing":[50,69],"needsAttention":[30,49],"critical":[0,29]},
+  "matchThreshold": 20,
+  "maxRecommendations": 6
+}
