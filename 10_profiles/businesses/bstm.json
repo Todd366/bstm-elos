@@ -1,0 +1,25 @@
+{
+  "businessId": "bstm",
+  "name": "Bstm",
+  "industry": "Tech",
+  "location": "Gaborone ",
+  "currentHealthScore": 0,
+  "categoryScores": {},
+  "previousHealthScores": [],
+  "weaknesses": [],
+  "strengths": [
+    "Digital Presence",
+    "Marketing & Customer Growth",
+    "Financial Management",
+    "Operations",
+    "Technology Readiness",
+    "Customer Experience",
+    "Growth & Strategy"
+  ],
+  "recommendedDepartments": [],
+  "completedImprovements": [],
+  "patternHistory": [],
+  "confidenceScore": 0,
+  "lastUpdated": "2026-07-17T12:22:32.068Z",
+  "createdAt": "2026-07-17T12:22:32.068Z"
+}
