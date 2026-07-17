@@ -1,0 +1,23 @@
+{
+  "businessId": "test-curl-business-2",
+  "name": "Test Curl Business 2",
+  "industry": "Retail",
+  "location": "Gaborone",
+  "currentHealthScore": 45,
+  "categoryScores": {
+    "Digital Presence": 20,
+    "Financial Management": 30
+  },
+  "previousHealthScores": [],
+  "weaknesses": [
+    "Digital Presence",
+    "Financial Management"
+  ],
+  "strengths": [],
+  "recommendedDepartments": [],
+  "completedImprovements": [],
+  "patternHistory": [],
+  "confidenceScore": 0,
+  "lastUpdated": "2026-07-17T12:17:00.464Z",
+  "createdAt": "2026-07-17T12:17:00.464Z"
+}
