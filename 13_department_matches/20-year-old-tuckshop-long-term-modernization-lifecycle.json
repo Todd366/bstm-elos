@@ -1,19 +1,38 @@
 {
   "businessId": "20-year-old-tuckshop-long-term-modernization-lifecycle",
-  "generatedAt": "2026-07-18T07:57:14.791Z",
+  "generatedAt": "2026-07-18T08:01:01.298Z",
   "matches": [
     {
-      "department": 5,
-      "name": "Mobile Application Development",
-      "score": 60,
+      "department": 6,
+      "name": "System Integration & API",
+      "score": 160,
       "matchedKeywords": [
+        "category-match",
         "explicit-trial-mapping"
       ],
       "relevant": true
     },
     {
-      "department": 6,
-      "name": "System Integration & API",
+      "department": 7,
+      "name": "Data Science & Analytics",
+      "score": 100,
+      "matchedKeywords": [
+        "category-match"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 25,
+      "name": "Project Management Office",
+      "score": 80,
+      "matchedKeywords": [
+        "diagnosed-bottleneck:Multi-System"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 5,
+      "name": "Mobile Application Development",
       "score": 60,
       "matchedKeywords": [
         "explicit-trial-mapping"
@@ -80,13 +99,6 @@
     {
       "department": 4,
       "name": "Web Development",
-      "score": 0,
-      "matchedKeywords": [],
-      "relevant": false
-    },
-    {
-      "department": 7,
-      "name": "Data Science & Analytics",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false
@@ -178,13 +190,6 @@
     {
       "department": 24,
       "name": "Human Resources & Talent Development",
-      "score": 0,
-      "matchedKeywords": [],
-      "relevant": false
-    },
-    {
-      "department": 25,
-      "name": "Project Management Office",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false

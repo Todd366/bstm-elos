@@ -1,10 +1,38 @@
 {
   "businessId": "nds-multi-service-hub-functional-overlap-challenges",
-  "generatedAt": "2026-07-18T07:57:14.793Z",
+  "generatedAt": "2026-07-18T08:01:01.300Z",
   "matches": [
+    {
+      "department": 25,
+      "name": "Project Management Office",
+      "score": 180,
+      "matchedKeywords": [
+        "category-match",
+        "diagnosed-bottleneck:Multi-System"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 24,
+      "name": "Human Resources & Talent Development",
+      "score": 100,
+      "matchedKeywords": [
+        "category-match"
+      ],
+      "relevant": true
+    },
     {
       "department": 5,
       "name": "Mobile Application Development",
+      "score": 60,
+      "matchedKeywords": [
+        "explicit-trial-mapping"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 17,
+      "name": "Finance & Accounting",
       "score": 60,
       "matchedKeywords": [
         "explicit-trial-mapping"
@@ -117,13 +145,6 @@
       "relevant": false
     },
     {
-      "department": 17,
-      "name": "Finance & Accounting",
-      "score": 0,
-      "matchedKeywords": [],
-      "relevant": false
-    },
-    {
       "department": 18,
       "name": "Marketplace & E-Commerce",
       "score": 0,
@@ -161,20 +182,6 @@
     {
       "department": 23,
       "name": "Sustainability & Environment",
-      "score": 0,
-      "matchedKeywords": [],
-      "relevant": false
-    },
-    {
-      "department": 24,
-      "name": "Human Resources & Talent Development",
-      "score": 0,
-      "matchedKeywords": [],
-      "relevant": false
-    },
-    {
-      "department": 25,
-      "name": "Project Management Office",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false

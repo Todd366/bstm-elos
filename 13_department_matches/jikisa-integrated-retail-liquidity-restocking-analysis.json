@@ -1,7 +1,18 @@
 {
   "businessId": "jikisa-integrated-retail-liquidity-restocking-analysis",
-  "generatedAt": "2026-07-18T07:57:14.795Z",
+  "generatedAt": "2026-07-18T08:01:01.302Z",
   "matches": [
+    {
+      "department": 17,
+      "name": "Finance & Accounting",
+      "score": 240,
+      "matchedKeywords": [
+        "category-match",
+        "explicit-trial-mapping",
+        "diagnosed-bottleneck:Liquidity"
+      ],
+      "relevant": true
+    },
     {
       "department": 5,
       "name": "Mobile Application Development",
@@ -112,13 +123,6 @@
     {
       "department": 16,
       "name": "CabLink Transportation",
-      "score": 0,
-      "matchedKeywords": [],
-      "relevant": false
-    },
-    {
-      "department": 17,
-      "name": "Finance & Accounting",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false

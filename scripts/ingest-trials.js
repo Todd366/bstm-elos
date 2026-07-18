@@ -22,8 +22,6 @@ const PATTERNS_DIR = path.join(__dirname, "..", "11_pattern_intelligence_auto");
   fs.mkdirSync(d, { recursive: true })
 );
 
-// Checklist dimension → audit-category mapping (reuses the same 7 categories
-// the Business Health Audit app already scores against)
 const DIMENSION_TO_CATEGORY = {
   "marketing & branding": "Marketing & Customer Growth",
   "marketing and branding": "Marketing & Customer Growth",
@@ -41,8 +39,22 @@ const DIMENSION_TO_CATEGORY = {
   "security observations": "Operations",
 };
 
-// Department numbers explicitly written in each trial's own ecosystem mapping —
-// this is data Todd already produced by hand; trust it directly.
+// Wider rating vocabulary — "Not recorded" / "Not fully recorded" = no data, skip
+const RATING_SCORES = {
+  good: 100, strong: 100,
+  fair: 50, moderate: 50,
+  poor: 0, weak: 0,
+};
+
+// Fallback signal for trials with NO checklist: the trial's own diagnosed
+// bottleneck type, taken straight from frontmatter (actual_bottleneck).
+const BOTTLENECK_TO_CATEGORY = {
+  exposure: "Marketing & Customer Growth",
+  liquidity: "Financial Management",
+  "multi-system": "Operations",
+  agility: "Operations",
+};
+
 function extractExplicitDepartments(text) {
   const found = new Set();
   const re = /\b([1-9]|[12][0-9]|30)\b\s*[–—-]?\s*[A-Z][A-Za-z .&]{3,40}/g;
@@ -50,6 +62,11 @@ function extractExplicitDepartments(text) {
   while ((m = re.exec(text)) !== null) {
     const id = parseInt(m[1], 10);
     if (id >= 1 && id <= 30) found.add(id);
+  }
+  // Also catch "Room 17", "Room 17 — FlowLedger" style references
+  const roomRe = /\bRoom\s+([1-9]|[12][0-9]|30)\b/gi;
+  while ((m = roomRe.exec(text)) !== null) {
+    found.add(parseInt(m[1], 10));
   }
   return Array.from(found);
 }
@@ -67,20 +84,13 @@ function parseFrontmatter(text) {
 
 function parseChecklistRatings(text) {
   const ratings = {};
-  const re = /-\s*([A-Za-z &\/]+):\s*(Good|Fair|Poor)/g;
+  const re = /-\s*([A-Za-z &\/]+):\s*(Good|Fair|Poor|Weak|Strong|Moderate)\b/gi;
   let m;
   while ((m = re.exec(text)) !== null) {
     const dim = m[1].trim().toLowerCase();
-    ratings[dim] = m[2];
+    ratings[dim] = m[2].toLowerCase();
   }
   return ratings;
-}
-
-function ratingToScore(rating) {
-  if (rating === "Good") return 100;
-  if (rating === "Fair") return 50;
-  if (rating === "Poor") return 0;
-  return null;
 }
 
 function ingestTrial(filename) {
@@ -90,20 +100,29 @@ function ingestTrial(filename) {
   const ratings = parseChecklistRatings(text);
   const explicitDepts = extractExplicitDepartments(text);
 
-  const categoryScores = {};
+  const categoryScoreLists = {};
   Object.entries(ratings).forEach(([dim, rating]) => {
     const category = DIMENSION_TO_CATEGORY[dim];
-    if (!category) return;
-    const score = ratingToScore(rating);
-    if (score === null) return;
-    if (!(category in categoryScores)) categoryScores[category] = [];
-    categoryScores[category].push(score);
+    const score = RATING_SCORES[rating];
+    if (!category || score === undefined) return;
+    (categoryScoreLists[category] ||= []).push(score);
   });
 
-  const finalScores = {};
-  Object.entries(categoryScores).forEach(([cat, arr]) => {
+  let finalScores = {};
+  Object.entries(categoryScoreLists).forEach(([cat, arr]) => {
     finalScores[cat] = Math.round(arr.reduce((a, b) => a + b, 0) / arr.length);
   });
+
+  let usedFallback = false;
+  // No checklist data at all → use the trial's own diagnosed bottleneck
+  if (Object.keys(finalScores).length === 0 && fm.actual_bottleneck) {
+    const bottleneck = fm.actual_bottleneck.toLowerCase();
+    const category = BOTTLENECK_TO_CATEGORY[bottleneck];
+    if (category) {
+      finalScores[category] = 15; // diagnosed critical bottleneck = severe weakness
+      usedFallback = true;
+    }
+  }
 
   let overall;
   const scoreVals = Object.values(finalScores);
@@ -116,15 +135,11 @@ function ingestTrial(filename) {
     overall = 50;
   }
 
-  const weaknesses = Object.entries(finalScores)
-    .filter(([, v]) => v < 50)
-    .map(([k]) => k);
-  const strengths = Object.entries(finalScores)
-    .filter(([, v]) => v >= 70)
-    .map(([k]) => k);
+  const weaknesses = Object.entries(finalScores).filter(([, v]) => v < 50).map(([k]) => k);
+  const strengths = Object.entries(finalScores).filter(([, v]) => v >= 70).map(([k]) => k);
 
-  const businessName = fm.business_name || fm.title || filename;
-  const industry = fm.category || "Unknown";
+  const businessName = fm.title || filename;
+  const industry = fm.actual_bottleneck ? `Bottleneck: ${fm.actual_bottleneck}` : "Unknown";
 
   const observationLike = {
     business: { name: businessName, industry, location: "Botswana" },
@@ -141,40 +156,35 @@ function ingestTrial(filename) {
   const profile = buildOrUpdateProfile(existing, observationLike);
   profile.sourceTrial = fm.trial_id || filename;
   profile.explicitDepartments = explicitDepts;
+  profile.diagnosedBottleneck = fm.actual_bottleneck || null;
+  profile.usedBottleneckFallback = usedFallback;
 
   fs.writeFileSync(profilePath, JSON.stringify(profile, null, 2));
-  console.log(`✓ Ingested ${filename} → ${businessId} (score ${overall}, weaknesses: ${weaknesses.join(", ") || "none"})`);
+  console.log(
+    `✓ ${filename} → ${businessId} | score ${overall} | weaknesses: ${weaknesses.join(", ") || "none"}` +
+    (usedFallback ? ` | (used bottleneck fallback: ${fm.actual_bottleneck})` : "")
+  );
 
   return profile;
 }
 
-// 1. Ingest every trial file
-const trialFiles = fs
-  .readdirSync(TRIALS_DIR)
-  .filter((f) => f.startsWith("BSTM-100T-") && f.endsWith(".md"));
-
+const trialFiles = fs.readdirSync(TRIALS_DIR).filter((f) => f.startsWith("BSTM-100T-") && f.endsWith(".md"));
 if (trialFiles.length === 0) {
-  console.log("No trial files found in 02_trial_intelligence/");
+  console.log("No trial files found.");
   process.exit(0);
 }
 
 const newProfiles = trialFiles.map(ingestTrial);
 
-// 2. Detect patterns across ALL profiles (trials + any prior test data)
 const allProfileFiles = fs.readdirSync(PROFILES_DIR).filter((f) => f.endsWith(".json"));
-const allProfiles = allProfileFiles.map((f) =>
-  JSON.parse(fs.readFileSync(path.join(PROFILES_DIR, f), "utf-8"))
-);
+const allProfiles = allProfileFiles.map((f) => JSON.parse(fs.readFileSync(path.join(PROFILES_DIR, f), "utf-8")));
 const patternResult = detectPatterns(allProfiles, rules);
 fs.writeFileSync(path.join(PATTERNS_DIR, "latest.json"), JSON.stringify(patternResult, null, 2));
-console.log(`\n✓ Pattern scan complete: ${patternResult.patterns.length} pattern(s) detected across ${allProfiles.length} profiles`);
+console.log(`\n✓ Pattern scan: ${patternResult.patterns.length} pattern(s) across ${allProfiles.length} profiles`);
 
-// 3. For each newly ingested trial: match departments, blend in explicit
-//    department mentions, generate recommendations, write final report
 newProfiles.forEach((profile) => {
   const matches = matchDepartments(profile.weaknesses, departments, weights.matchThreshold);
 
-  // Blend in departments the trial already explicitly identified
   (profile.explicitDepartments || []).forEach((deptId) => {
     const entry = matches.find((m) => m.department === deptId);
     if (entry) {
@@ -183,6 +193,19 @@ newProfiles.forEach((profile) => {
       entry.relevant = true;
     }
   });
+
+  // If bottleneck fallback was used, directly boost the matching department
+  if (profile.diagnosedBottleneck) {
+    const boostMap = { liquidity: 17, exposure: 12, "multi-system": 25, agility: 25 };
+    const deptId = boostMap[profile.diagnosedBottleneck.toLowerCase()];
+    const entry = matches.find((m) => m.department === deptId);
+    if (entry) {
+      entry.score += 80;
+      entry.matchedKeywords.push(`diagnosed-bottleneck:${profile.diagnosedBottleneck}`);
+      entry.relevant = true;
+    }
+  }
+
   matches.sort((a, b) => b.score - a.score);
 
   fs.writeFileSync(
@@ -209,6 +232,7 @@ newProfiles.forEach((profile) => {
     criticalProblems: profile.weaknesses.length,
     strengths: profile.strengths,
     weaknesses: profile.weaknesses,
+    diagnosedBottleneck: profile.diagnosedBottleneck,
     detectedPatterns: patternResult.patterns.filter((p) => p.industry === profile.industry),
     recommendedDepartments: recommendations,
     estimatedTimelineWeeks: recommendations.reduce((max, r) => Math.max(max, r.estimatedTimelineWeeks), 0),
@@ -222,7 +246,7 @@ newProfiles.forEach((profile) => {
     JSON.stringify(report, null, 2)
   );
 
-  console.log(`✓ Report generated for ${profile.name}: ${recommendations.length} department(s) recommended, ${confidence}% confidence`);
+  console.log(`✓ Report: ${profile.name} → ${recommendations.length} dept(s), ${confidence}% confidence`);
 });
 
-console.log("\n🧠 ELOS trained on existing 100 Trials data.");
+console.log("\n🧠 ELOS re-trained with wider rating vocabulary + bottleneck fallback.");

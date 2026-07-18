@@ -1,9 +1,18 @@
 {
-  "businessId": "nado-clothes-store",
-  "generatedAt": "2026-07-18T07:57:14.789Z",
+  "businessId": "nado-clothes-store-mobile-vehicle-based-retail-model",
+  "generatedAt": "2026-07-18T08:01:01.296Z",
   "recommendations": [
     {
       "priority": 1,
+      "department": 25,
+      "name": "Project Management Office",
+      "reason": "Matched on: diagnosed-bottleneck:Agility",
+      "impact": 4,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    },
+    {
+      "priority": 2,
       "department": 5,
       "name": "Mobile Application Development",
       "reason": "Matched on: explicit-trial-mapping",
@@ -12,7 +21,7 @@
       "estimatedTimelineWeeks": 4
     },
     {
-      "priority": 2,
+      "priority": 3,
       "department": 6,
       "name": "System Integration & API",
       "reason": "Matched on: explicit-trial-mapping",
@@ -21,7 +30,7 @@
       "estimatedTimelineWeeks": 4
     },
     {
-      "priority": 3,
+      "priority": 4,
       "department": 16,
       "name": "CabLink Transportation",
       "reason": "Matched on: explicit-trial-mapping",
@@ -30,7 +39,7 @@
       "estimatedTimelineWeeks": 4
     },
     {
-      "priority": 4,
+      "priority": 5,
       "department": 18,
       "name": "Marketplace & E-Commerce",
       "reason": "Matched on: explicit-trial-mapping",

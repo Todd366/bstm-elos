@@ -1,9 +1,18 @@
 {
   "businessId": "jikisa-integrated-retail-liquidity-restocking-analysis",
-  "generatedAt": "2026-07-18T07:57:14.796Z",
+  "generatedAt": "2026-07-18T08:01:01.302Z",
   "recommendations": [
     {
       "priority": 1,
+      "department": 17,
+      "name": "Finance & Accounting",
+      "reason": "Matched on: category-match, explicit-trial-mapping, diagnosed-bottleneck:Liquidity",
+      "impact": 5,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    },
+    {
+      "priority": 2,
       "department": 5,
       "name": "Mobile Application Development",
       "reason": "Matched on: explicit-trial-mapping",

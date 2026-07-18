@@ -1,0 +1,39 @@
+{
+  "businessId": "hermosa-beauty-spa-field-audit",
+  "name": "Hermosa Beauty Spa — Field Audit",
+  "industry": "Bottleneck: Exposure",
+  "location": "Botswana",
+  "currentHealthScore": 15,
+  "categoryScores": {
+    "Marketing & Customer Growth": 15
+  },
+  "previousHealthScores": [],
+  "weaknesses": [
+    "Marketing & Customer Growth"
+  ],
+  "strengths": [],
+  "recommendedDepartments": [
+    12,
+    11,
+    4,
+    5,
+    18,
+    19
+  ],
+  "completedImprovements": [],
+  "patternHistory": [],
+  "confidenceScore": 65,
+  "lastUpdated": "2026-07-18T08:01:01.276Z",
+  "createdAt": "2026-07-18T08:01:01.276Z",
+  "sourceTrial": "BSTM-100T-002",
+  "explicitDepartments": [
+    5,
+    11,
+    12,
+    18,
+    4,
+    19
+  ],
+  "diagnosedBottleneck": "Exposure",
+  "usedBottleneckFallback": true
+}

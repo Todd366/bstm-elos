@@ -1,9 +1,36 @@
 {
   "businessId": "20-year-old-tuckshop-long-term-modernization-lifecycle",
-  "generatedAt": "2026-07-18T07:57:14.792Z",
+  "generatedAt": "2026-07-18T08:01:01.299Z",
   "recommendations": [
     {
       "priority": 1,
+      "department": 6,
+      "name": "System Integration & API",
+      "reason": "Matched on: category-match, explicit-trial-mapping",
+      "impact": 5,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    },
+    {
+      "priority": 2,
+      "department": 7,
+      "name": "Data Science & Analytics",
+      "reason": "Matched on: category-match",
+      "impact": 5,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    },
+    {
+      "priority": 3,
+      "department": 25,
+      "name": "Project Management Office",
+      "reason": "Matched on: diagnosed-bottleneck:Multi-System",
+      "impact": 4,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    },
+    {
+      "priority": 4,
       "department": 5,
       "name": "Mobile Application Development",
       "reason": "Matched on: explicit-trial-mapping",
@@ -12,16 +39,7 @@
       "estimatedTimelineWeeks": 4
     },
     {
-      "priority": 2,
-      "department": 6,
-      "name": "System Integration & API",
-      "reason": "Matched on: explicit-trial-mapping",
-      "impact": 3,
-      "estimatedDifficulty": "Medium",
-      "estimatedTimelineWeeks": 4
-    },
-    {
-      "priority": 3,
+      "priority": 5,
       "department": 13,
       "name": "BSTM Tutorial Center",
       "reason": "Matched on: explicit-trial-mapping",
@@ -30,27 +48,9 @@
       "estimatedTimelineWeeks": 4
     },
     {
-      "priority": 4,
+      "priority": 6,
       "department": 17,
       "name": "Finance & Accounting",
-      "reason": "Matched on: explicit-trial-mapping",
-      "impact": 3,
-      "estimatedDifficulty": "Medium",
-      "estimatedTimelineWeeks": 4
-    },
-    {
-      "priority": 5,
-      "department": 18,
-      "name": "Marketplace & E-Commerce",
-      "reason": "Matched on: explicit-trial-mapping",
-      "impact": 3,
-      "estimatedDifficulty": "Medium",
-      "estimatedTimelineWeeks": 4
-    },
-    {
-      "priority": 6,
-      "department": 20,
-      "name": "Healthcare Information & Wellness",
       "reason": "Matched on: explicit-trial-mapping",
       "impact": 3,
       "estimatedDifficulty": "Medium",

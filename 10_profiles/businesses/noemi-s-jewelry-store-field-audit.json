@@ -1,7 +1,7 @@
 {
-  "businessId": "noemi-s-jewelry-store",
-  "name": "Noemi's Jewelry Store",
-  "industry": "Jewelry Store",
+  "businessId": "noemi-s-jewelry-store-field-audit",
+  "name": "Noemi's Jewelry Store — Field Audit",
+  "industry": "Bottleneck: Exposure",
   "location": "Botswana",
   "currentHealthScore": 35,
   "categoryScores": {
@@ -21,15 +21,21 @@
     11,
     24,
     25,
-    5
+    5,
+    18
   ],
   "completedImprovements": [],
   "patternHistory": [],
   "confidenceScore": 65,
-  "lastUpdated": "2026-07-18T07:57:14.633Z",
-  "createdAt": "2026-07-18T07:57:14.633Z",
+  "lastUpdated": "2026-07-18T08:01:01.201Z",
+  "createdAt": "2026-07-18T08:01:01.201Z",
   "sourceTrial": "BSTM-100T-001",
   "explicitDepartments": [
-    5
-  ]
+    5,
+    11,
+    12,
+    18
+  ],
+  "diagnosedBottleneck": "Exposure",
+  "usedBottleneckFallback": false
 }

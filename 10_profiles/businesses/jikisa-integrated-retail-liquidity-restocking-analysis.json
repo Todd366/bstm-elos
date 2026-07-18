@@ -1,23 +1,31 @@
 {
   "businessId": "jikisa-integrated-retail-liquidity-restocking-analysis",
   "name": "Jikisa Integrated Retail — Liquidity & Restocking Analysis",
-  "industry": "Unknown",
+  "industry": "Bottleneck: Liquidity",
   "location": "Botswana",
-  "currentHealthScore": 50,
-  "categoryScores": {},
+  "currentHealthScore": 15,
+  "categoryScores": {
+    "Financial Management": 15
+  },
   "previousHealthScores": [],
-  "weaknesses": [],
+  "weaknesses": [
+    "Financial Management"
+  ],
   "strengths": [],
   "recommendedDepartments": [
+    17,
     5
   ],
   "completedImprovements": [],
   "patternHistory": [],
-  "confidenceScore": 50,
-  "lastUpdated": "2026-07-18T07:57:14.766Z",
-  "createdAt": "2026-07-18T07:57:14.766Z",
+  "confidenceScore": 65,
+  "lastUpdated": "2026-07-18T08:01:01.283Z",
+  "createdAt": "2026-07-18T08:01:01.283Z",
   "sourceTrial": "BSTM-100T-006",
   "explicitDepartments": [
-    5
-  ]
+    5,
+    17
+  ],
+  "diagnosedBottleneck": "Liquidity",
+  "usedBottleneckFallback": true
 }

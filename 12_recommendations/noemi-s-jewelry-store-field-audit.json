@@ -1,12 +1,12 @@
 {
-  "businessId": "noemi-s-jewelry-store",
-  "generatedAt": "2026-07-18T07:57:14.783Z",
+  "businessId": "noemi-s-jewelry-store-field-audit",
+  "generatedAt": "2026-07-18T08:01:01.291Z",
   "recommendations": [
     {
       "priority": 1,
       "department": 12,
       "name": "Digital Marketing & Advertising",
-      "reason": "Matched on: marketing, category-match",
+      "reason": "Matched on: marketing, category-match, explicit-trial-mapping, diagnosed-bottleneck:Exposure",
       "impact": 5,
       "estimatedDifficulty": "Low",
       "estimatedTimelineWeeks": 2
@@ -15,7 +15,7 @@
       "priority": 2,
       "department": 11,
       "name": "Social Media Management",
-      "reason": "Matched on: category-match",
+      "reason": "Matched on: category-match, explicit-trial-mapping",
       "impact": 5,
       "estimatedDifficulty": "Low",
       "estimatedTimelineWeeks": 2
@@ -42,6 +42,15 @@
       "priority": 5,
       "department": 5,
       "name": "Mobile Application Development",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    },
+    {
+      "priority": 6,
+      "department": 18,
+      "name": "Marketplace & E-Commerce",
       "reason": "Matched on: explicit-trial-mapping",
       "impact": 3,
       "estimatedDifficulty": "Medium",
