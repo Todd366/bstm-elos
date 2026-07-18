@@ -6,6 +6,7 @@ const { detectPatterns } = require("../intelligence/patternEngine");
 const { matchDepartments } = require("../intelligence/matcher");
 const { generateRecommendations } = require("../intelligence/recommender");
 const { calculateConfidence } = require("../intelligence/confidence");
+const { calculateAcceptanceRate } = require("../intelligence/learning");
 
 const departments = require("../00_core/departments.json");
 const rules = require("../00_core/rules.json");
@@ -71,8 +72,14 @@ module.exports = async function handler(req, res) {
     record: { businessId, generatedAt: now.toISOString(), recommendations },
   });
 
-  // 6. Confidence + final intelligence report
-  const confidence = calculateConfidence(profile, patternResult.patterns.length);
+  // 6. Confidence + final intelligence report — factor in real acceptance history
+  const learningLog = (await readJSON("14_learning/decisions.json")) || { decisions: [] };
+  const acceptanceRates = {};
+  departments.forEach((d) => {
+    const rate = calculateAcceptanceRate(learningLog, d.id);
+    if (rate !== null) acceptanceRates[d.id] = rate;
+  });
+  const confidence = calculateConfidence(profile, patternResult.patterns.length, acceptanceRates);
   const report = {
     businessId,
     businessName: profile.name,
