@@ -1,59 +1,20 @@
 {
-  "businessId": "noemi-s-jewelry-store-field-audit",
-  "generatedAt": "2026-07-18T08:13:56.410Z",
+  "businessId": "nds-multi-service-hub-functional-overlap-challenges",
+  "generatedAt": "2026-07-18T08:13:56.421Z",
   "matches": [
     {
-      "department": 12,
-      "name": "Digital Marketing & Advertising",
-      "score": 435,
-      "matchedKeywords": [
-        "marketing",
-        "category-match",
-        "explicit-trial-mapping",
-        "diagnosed-bottleneck:Exposure"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 11,
-      "name": "Social Media Management",
-      "score": 260,
+      "department": 25,
+      "name": "Project Management Office",
+      "score": 180,
       "matchedKeywords": [
         "category-match",
-        "explicit-trial-mapping"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 6,
-      "name": "System Integration & API",
-      "score": 100,
-      "matchedKeywords": [
-        "category-match"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 7,
-      "name": "Data Science & Analytics",
-      "score": 100,
-      "matchedKeywords": [
-        "category-match"
+        "diagnosed-bottleneck:Multi-System"
       ],
       "relevant": true
     },
     {
       "department": 24,
       "name": "Human Resources & Talent Development",
-      "score": 100,
-      "matchedKeywords": [
-        "category-match"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 25,
-      "name": "Project Management Office",
       "score": 100,
       "matchedKeywords": [
         "category-match"
@@ -70,8 +31,8 @@
       "relevant": true
     },
     {
-      "department": 18,
-      "name": "Marketplace & E-Commerce",
+      "department": 17,
+      "name": "Finance & Accounting",
       "score": 60,
       "matchedKeywords": [
         "explicit-trial-mapping"
@@ -107,6 +68,20 @@
       "relevant": false
     },
     {
+      "department": 6,
+      "name": "System Integration & API",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 7,
+      "name": "Data Science & Analytics",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
       "department": 8,
       "name": "Blockchain & Cryptocurrency",
       "score": 0,
@@ -123,6 +98,20 @@
     {
       "department": 10,
       "name": "Content Creation & Copywriting",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 11,
+      "name": "Social Media Management",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 12,
+      "name": "Digital Marketing & Advertising",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false
@@ -156,8 +145,8 @@
       "relevant": false
     },
     {
-      "department": 17,
-      "name": "Finance & Accounting",
+      "department": 18,
+      "name": "Marketplace & E-Commerce",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false

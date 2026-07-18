@@ -1,0 +1,42 @@
+{
+  "businessId": "nds-multi-service-hub-functional-overlap-challenges",
+  "generatedAt": "2026-07-18T08:13:56.421Z",
+  "recommendations": [
+    {
+      "priority": 1,
+      "department": 25,
+      "name": "Project Management Office",
+      "reason": "Matched on: category-match, diagnosed-bottleneck:Multi-System",
+      "impact": 5,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    },
+    {
+      "priority": 2,
+      "department": 24,
+      "name": "Human Resources & Talent Development",
+      "reason": "Matched on: category-match",
+      "impact": 5,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    },
+    {
+      "priority": 3,
+      "department": 5,
+      "name": "Mobile Application Development",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    },
+    {
+      "priority": 4,
+      "department": 17,
+      "name": "Finance & Accounting",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 {
-  "businessId": "noemi-s-jewelry-store-field-audit",
-  "generatedAt": "2026-07-18T08:13:56.410Z",
+  "businessId": "hermosa-beauty-spa-field-audit",
+  "generatedAt": "2026-07-18T08:13:56.413Z",
   "matches": [
     {
       "department": 12,
       "name": "Digital Marketing & Advertising",
-      "score": 435,
+      "score": 335,
       "matchedKeywords": [
         "marketing",
         "category-match",
@@ -17,7 +17,7 @@
     {
       "department": 11,
       "name": "Social Media Management",
-      "score": 260,
+      "score": 160,
       "matchedKeywords": [
         "category-match",
         "explicit-trial-mapping"
@@ -25,38 +25,11 @@
       "relevant": true
     },
     {
-      "department": 6,
-      "name": "System Integration & API",
-      "score": 100,
+      "department": 4,
+      "name": "Web Development",
+      "score": 60,
       "matchedKeywords": [
-        "category-match"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 7,
-      "name": "Data Science & Analytics",
-      "score": 100,
-      "matchedKeywords": [
-        "category-match"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 24,
-      "name": "Human Resources & Talent Development",
-      "score": 100,
-      "matchedKeywords": [
-        "category-match"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 25,
-      "name": "Project Management Office",
-      "score": 100,
-      "matchedKeywords": [
-        "category-match"
+        "explicit-trial-mapping"
       ],
       "relevant": true
     },
@@ -72,6 +45,15 @@
     {
       "department": 18,
       "name": "Marketplace & E-Commerce",
+      "score": 60,
+      "matchedKeywords": [
+        "explicit-trial-mapping"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 19,
+      "name": "Research & Development",
       "score": 60,
       "matchedKeywords": [
         "explicit-trial-mapping"
@@ -100,8 +82,15 @@
       "relevant": false
     },
     {
-      "department": 4,
-      "name": "Web Development",
+      "department": 6,
+      "name": "System Integration & API",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 7,
+      "name": "Data Science & Analytics",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false
@@ -163,13 +152,6 @@
       "relevant": false
     },
     {
-      "department": 19,
-      "name": "Research & Development",
-      "score": 0,
-      "matchedKeywords": [],
-      "relevant": false
-    },
-    {
       "department": 20,
       "name": "Healthcare Information & Wellness",
       "score": 0,
@@ -193,6 +175,20 @@
     {
       "department": 23,
       "name": "Sustainability & Environment",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 24,
+      "name": "Human Resources & Talent Development",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 25,
+      "name": "Project Management Office",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false

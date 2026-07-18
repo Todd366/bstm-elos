@@ -12,12 +12,19 @@
     "Marketing & Customer Growth"
   ],
   "strengths": [],
-  "recommendedDepartments": [],
+  "recommendedDepartments": [
+    12,
+    11,
+    4,
+    5,
+    18,
+    19
+  ],
   "completedImprovements": [],
   "patternHistory": [],
-  "confidenceScore": 0,
-  "lastUpdated": "2026-07-18T08:11:44.429Z",
-  "createdAt": "2026-07-18T08:11:44.429Z",
+  "confidenceScore": 85,
+  "lastUpdated": "2026-07-18T08:13:56.400Z",
+  "createdAt": "2026-07-18T08:13:56.400Z",
   "sourceTrial": "BSTM-100T-002",
   "explicitDepartments": [
     5,

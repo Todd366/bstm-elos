@@ -1,12 +1,12 @@
 {
-  "businessId": "noemi-s-jewelry-store-field-audit",
-  "generatedAt": "2026-07-18T08:13:56.412Z",
+  "businessId": "nado-clothes-store-mobile-vehicle-based-retail-model",
+  "generatedAt": "2026-07-18T08:13:56.416Z",
   "recommendations": [
     {
       "priority": 1,
       "department": 12,
       "name": "Digital Marketing & Advertising",
-      "reason": "Matched on: marketing, category-match, explicit-trial-mapping, diagnosed-bottleneck:Exposure",
+      "reason": "Matched on: marketing, category-match",
       "impact": 5,
       "estimatedDifficulty": "Low",
       "estimatedTimelineWeeks": 2
@@ -15,7 +15,7 @@
       "priority": 2,
       "department": 11,
       "name": "Social Media Management",
-      "reason": "Matched on: category-match, explicit-trial-mapping",
+      "reason": "Matched on: category-match",
       "impact": 5,
       "estimatedDifficulty": "Low",
       "estimatedTimelineWeeks": 2
@@ -24,7 +24,7 @@
       "priority": 3,
       "department": 6,
       "name": "System Integration & API",
-      "reason": "Matched on: category-match",
+      "reason": "Matched on: category-match, explicit-trial-mapping",
       "impact": 5,
       "estimatedDifficulty": "Low",
       "estimatedTimelineWeeks": 2
@@ -40,21 +40,21 @@
     },
     {
       "priority": 5,
-      "department": 24,
-      "name": "Human Resources & Talent Development",
-      "reason": "Matched on: category-match",
-      "impact": 5,
+      "department": 25,
+      "name": "Project Management Office",
+      "reason": "Matched on: diagnosed-bottleneck:Agility",
+      "impact": 4,
       "estimatedDifficulty": "Low",
       "estimatedTimelineWeeks": 2
     },
     {
       "priority": 6,
-      "department": 25,
-      "name": "Project Management Office",
-      "reason": "Matched on: category-match",
-      "impact": 5,
-      "estimatedDifficulty": "Low",
-      "estimatedTimelineWeeks": 2
+      "department": 5,
+      "name": "Mobile Application Development",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
     }
   ]
 }

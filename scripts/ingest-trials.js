@@ -39,15 +39,12 @@ const DIMENSION_TO_CATEGORY = {
   "security observations": "Operations",
 };
 
-// Wider rating vocabulary — "Not recorded" / "Not fully recorded" = no data, skip
 const RATING_SCORES = {
   good: 100, strong: 100,
   fair: 40, moderate: 40,
   poor: 0, weak: 0,
 };
 
-// Fallback signal for trials with NO checklist: the trial's own diagnosed
-// bottleneck type, taken straight from frontmatter (actual_bottleneck).
 const BOTTLENECK_TO_CATEGORY = {
   exposure: "Marketing & Customer Growth",
   liquidity: "Financial Management",
@@ -63,7 +60,6 @@ function extractExplicitDepartments(text) {
     const id = parseInt(m[1], 10);
     if (id >= 1 && id <= 30) found.add(id);
   }
-  // Also catch "Room 17", "Room 17 — FlowLedger" style references
   const roomRe = /\bRoom\s+([1-9]|[12][0-9]|30)\b/gi;
   while ((m = roomRe.exec(text)) !== null) {
     found.add(parseInt(m[1], 10));
@@ -114,12 +110,11 @@ function ingestTrial(filename) {
   });
 
   let usedFallback = false;
-  // No checklist data at all → use the trial's own diagnosed bottleneck
   if (Object.keys(finalScores).length === 0 && fm.actual_bottleneck) {
     const bottleneck = fm.actual_bottleneck.toLowerCase();
     const category = BOTTLENECK_TO_CATEGORY[bottleneck];
     if (category) {
-      finalScores[category] = 15; // diagnosed critical bottleneck = severe weakness
+      finalScores[category] = 15;
       usedFallback = true;
     }
   }
@@ -162,7 +157,7 @@ function ingestTrial(filename) {
   fs.writeFileSync(profilePath, JSON.stringify(profile, null, 2));
   console.log(
     `✓ ${filename} → ${businessId} | score ${overall} | weaknesses: ${weaknesses.join(", ") || "none"}` +
-    (usedFallback ? ` | (used bottleneck fallback: ${fm.actual_bottleneck})` : "")
+    (usedFallback ? ` | (bottleneck fallback: ${fm.actual_bottleneck})` : "")
   );
 
   return profile;
@@ -174,10 +169,11 @@ if (trialFiles.length === 0) {
   process.exit(0);
 }
 
+// STEP 1: parse every trial into a base profile (weaknesses/strengths only)
 const newProfiles = trialFiles.map(ingestTrial);
 
-// PASS 1: match departments + generate recommendations for every profile FIRST,
-// so department demand data actually exists before pattern detection reads it.
+// STEP 2: match departments + generate recommendations for every profile
+const matchesByBusiness = {};
 newProfiles.forEach((profile) => {
   const matches = matchDepartments(profile.weaknesses, departments, weights.matchThreshold);
 
@@ -190,7 +186,6 @@ newProfiles.forEach((profile) => {
     }
   });
 
-  // If bottleneck fallback was used, directly boost the matching department
   if (profile.diagnosedBottleneck) {
     const boostMap = { liquidity: 17, exposure: 12, "multi-system": 25, agility: 25 };
     const deptId = boostMap[profile.diagnosedBottleneck.toLowerCase()];
@@ -215,11 +210,27 @@ newProfiles.forEach((profile) => {
     JSON.stringify({ businessId: profile.businessId, generatedAt: new Date().toISOString(), recommendations }, null, 2)
   );
 
-  const confidence = calculateConfidence(profile, patternResult.patterns.length);
   profile.recommendedDepartments = recommendations.map((r) => r.department);
+  fs.writeFileSync(path.join(PROFILES_DIR, `${profile.businessId}.json`), JSON.stringify(profile, null, 2));
+
+  matchesByBusiness[profile.businessId] = recommendations;
+  console.log(`✓ Matched: ${profile.name} → ${recommendations.length} dept(s)`);
+});
+
+// STEP 3: NOW run pattern detection — every profile has recommendedDepartments set
+const allProfileFiles = fs.readdirSync(PROFILES_DIR).filter((f) => f.endsWith(".json"));
+const allProfiles = allProfileFiles.map((f) => JSON.parse(fs.readFileSync(path.join(PROFILES_DIR, f), "utf-8")));
+const patternResult = detectPatterns(allProfiles, rules);
+fs.writeFileSync(path.join(PATTERNS_DIR, "latest.json"), JSON.stringify(patternResult, null, 2));
+console.log(`\n✓ Pattern scan: ${patternResult.patterns.length} pattern(s), department demand across ${allProfiles.length} profiles`);
+
+// STEP 4: compute confidence (needs pattern count) + write final reports
+newProfiles.forEach((profile) => {
+  const confidence = calculateConfidence(profile, patternResult.patterns.length);
   profile.confidenceScore = confidence;
   fs.writeFileSync(path.join(PROFILES_DIR, `${profile.businessId}.json`), JSON.stringify(profile, null, 2));
 
+  const recommendations = matchesByBusiness[profile.businessId];
   const report = {
     businessId: profile.businessId,
     businessName: profile.name,
@@ -229,7 +240,7 @@ newProfiles.forEach((profile) => {
     strengths: profile.strengths,
     weaknesses: profile.weaknesses,
     diagnosedBottleneck: profile.diagnosedBottleneck,
-    detectedPatterns: patternResult.patterns.filter((p) => p.industry === profile.industry),
+    detectedPatterns: patternResult.patterns.filter((p) => p.scope === "ecosystem" || p.industry === profile.industry),
     recommendedDepartments: recommendations,
     estimatedTimelineWeeks: recommendations.reduce((max, r) => Math.max(max, r.estimatedTimelineWeeks), 0),
     confidence,
@@ -242,22 +253,7 @@ newProfiles.forEach((profile) => {
     JSON.stringify(report, null, 2)
   );
 
-  console.log(`✓ Matched: ${profile.name} → ${recommendations.length} dept(s)`);
+  console.log(`✓ Report: ${profile.name} → ${recommendations.length} dept(s), ${confidence}% confidence`);
 });
 
-// PASS 2: NOW run pattern detection — every profile has recommendedDepartments set
-const allProfileFiles = fs.readdirSync(PROFILES_DIR).filter((f) => f.endsWith(".json"));
-const allProfiles = allProfileFiles.map((f) => JSON.parse(fs.readFileSync(path.join(PROFILES_DIR, f), "utf-8")));
-const patternResult = detectPatterns(allProfiles, rules);
-fs.writeFileSync(path.join(PATTERNS_DIR, "latest.json"), JSON.stringify(patternResult, null, 2));
-console.log(`\n✓ Pattern scan: ${patternResult.patterns.length} pattern(s), department demand across ${allProfiles.length} profiles`);
-
-// PASS 3: re-attach the now-complete pattern data into each business's final report
-newProfiles.forEach((profile) => {
-  const reportPath = path.join(OUTPUT_DIR, `intelligence-report-${profile.businessId}.json`);
-  const report = JSON.parse(fs.readFileSync(reportPath, "utf-8"));
-  report.detectedPatterns = patternResult.patterns.filter((p) => p.scope === "ecosystem" || p.industry === profile.industry);
-  fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
-});
-
-console.log("\n🧠 ELOS re-trained with wider rating vocabulary + bottleneck fallback.");
+console.log("\n🧠 ELOS ingestion complete: profiles, department matches, ecosystem patterns, and confidence all consistent.");

@@ -1,77 +1,21 @@
 {
-  "businessId": "noemi-s-jewelry-store-field-audit",
-  "generatedAt": "2026-07-18T08:13:56.410Z",
+  "businessId": "jikisa-integrated-retail-liquidity-restocking-analysis",
+  "generatedAt": "2026-07-18T08:13:56.422Z",
   "matches": [
     {
-      "department": 12,
-      "name": "Digital Marketing & Advertising",
-      "score": 435,
+      "department": 17,
+      "name": "Finance & Accounting",
+      "score": 240,
       "matchedKeywords": [
-        "marketing",
         "category-match",
         "explicit-trial-mapping",
-        "diagnosed-bottleneck:Exposure"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 11,
-      "name": "Social Media Management",
-      "score": 260,
-      "matchedKeywords": [
-        "category-match",
-        "explicit-trial-mapping"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 6,
-      "name": "System Integration & API",
-      "score": 100,
-      "matchedKeywords": [
-        "category-match"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 7,
-      "name": "Data Science & Analytics",
-      "score": 100,
-      "matchedKeywords": [
-        "category-match"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 24,
-      "name": "Human Resources & Talent Development",
-      "score": 100,
-      "matchedKeywords": [
-        "category-match"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 25,
-      "name": "Project Management Office",
-      "score": 100,
-      "matchedKeywords": [
-        "category-match"
+        "diagnosed-bottleneck:Liquidity"
       ],
       "relevant": true
     },
     {
       "department": 5,
       "name": "Mobile Application Development",
-      "score": 60,
-      "matchedKeywords": [
-        "explicit-trial-mapping"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 18,
-      "name": "Marketplace & E-Commerce",
       "score": 60,
       "matchedKeywords": [
         "explicit-trial-mapping"
@@ -107,6 +51,20 @@
       "relevant": false
     },
     {
+      "department": 6,
+      "name": "System Integration & API",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 7,
+      "name": "Data Science & Analytics",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
       "department": 8,
       "name": "Blockchain & Cryptocurrency",
       "score": 0,
@@ -123,6 +81,20 @@
     {
       "department": 10,
       "name": "Content Creation & Copywriting",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 11,
+      "name": "Social Media Management",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 12,
+      "name": "Digital Marketing & Advertising",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false
@@ -156,8 +128,8 @@
       "relevant": false
     },
     {
-      "department": 17,
-      "name": "Finance & Accounting",
+      "department": 18,
+      "name": "Marketplace & E-Commerce",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false
@@ -193,6 +165,20 @@
     {
       "department": 23,
       "name": "Sustainability & Environment",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 24,
+      "name": "Human Resources & Talent Development",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 25,
+      "name": "Project Management Office",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false

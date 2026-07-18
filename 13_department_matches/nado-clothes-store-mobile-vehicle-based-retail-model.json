@@ -1,35 +1,33 @@
 {
-  "businessId": "noemi-s-jewelry-store-field-audit",
-  "generatedAt": "2026-07-18T08:13:56.410Z",
+  "businessId": "nado-clothes-store-mobile-vehicle-based-retail-model",
+  "generatedAt": "2026-07-18T08:13:56.415Z",
   "matches": [
     {
       "department": 12,
       "name": "Digital Marketing & Advertising",
-      "score": 435,
+      "score": 295,
       "matchedKeywords": [
         "marketing",
-        "category-match",
-        "explicit-trial-mapping",
-        "diagnosed-bottleneck:Exposure"
+        "category-match"
       ],
       "relevant": true
     },
     {
       "department": 11,
       "name": "Social Media Management",
-      "score": 260,
+      "score": 200,
       "matchedKeywords": [
-        "category-match",
-        "explicit-trial-mapping"
+        "category-match"
       ],
       "relevant": true
     },
     {
       "department": 6,
       "name": "System Integration & API",
-      "score": 100,
+      "score": 160,
       "matchedKeywords": [
-        "category-match"
+        "category-match",
+        "explicit-trial-mapping"
       ],
       "relevant": true
     },
@@ -43,26 +41,26 @@
       "relevant": true
     },
     {
-      "department": 24,
-      "name": "Human Resources & Talent Development",
-      "score": 100,
-      "matchedKeywords": [
-        "category-match"
-      ],
-      "relevant": true
-    },
-    {
       "department": 25,
       "name": "Project Management Office",
-      "score": 100,
+      "score": 80,
       "matchedKeywords": [
-        "category-match"
+        "diagnosed-bottleneck:Agility"
       ],
       "relevant": true
     },
     {
       "department": 5,
       "name": "Mobile Application Development",
+      "score": 60,
+      "matchedKeywords": [
+        "explicit-trial-mapping"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 16,
+      "name": "CabLink Transportation",
       "score": 60,
       "matchedKeywords": [
         "explicit-trial-mapping"
@@ -149,13 +147,6 @@
       "relevant": false
     },
     {
-      "department": 16,
-      "name": "CabLink Transportation",
-      "score": 0,
-      "matchedKeywords": [],
-      "relevant": false
-    },
-    {
       "department": 17,
       "name": "Finance & Accounting",
       "score": 0,
@@ -193,6 +184,13 @@
     {
       "department": 23,
       "name": "Sustainability & Environment",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 24,
+      "name": "Human Resources & Talent Development",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false

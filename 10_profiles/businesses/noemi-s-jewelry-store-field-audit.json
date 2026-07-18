@@ -18,12 +18,19 @@
     "Customer Experience"
   ],
   "strengths": [],
-  "recommendedDepartments": [],
+  "recommendedDepartments": [
+    12,
+    11,
+    6,
+    7,
+    24,
+    25
+  ],
   "completedImprovements": [],
   "patternHistory": [],
-  "confidenceScore": 0,
-  "lastUpdated": "2026-07-18T08:11:44.354Z",
-  "createdAt": "2026-07-18T08:11:44.354Z",
+  "confidenceScore": 85,
+  "lastUpdated": "2026-07-18T08:13:56.319Z",
+  "createdAt": "2026-07-18T08:13:56.319Z",
   "sourceTrial": "BSTM-100T-001",
   "explicitDepartments": [
     5,

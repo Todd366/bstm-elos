@@ -12,12 +12,15 @@
     "Financial Management"
   ],
   "strengths": [],
-  "recommendedDepartments": [],
+  "recommendedDepartments": [
+    17,
+    5
+  ],
   "completedImprovements": [],
   "patternHistory": [],
-  "confidenceScore": 0,
-  "lastUpdated": "2026-07-18T08:11:44.437Z",
-  "createdAt": "2026-07-18T08:11:44.437Z",
+  "confidenceScore": 85,
+  "lastUpdated": "2026-07-18T08:13:56.407Z",
+  "createdAt": "2026-07-18T08:13:56.407Z",
   "sourceTrial": "BSTM-100T-006",
   "explicitDepartments": [
     5,

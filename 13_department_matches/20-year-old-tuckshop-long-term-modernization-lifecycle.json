@@ -1,35 +1,14 @@
 {
-  "businessId": "noemi-s-jewelry-store-field-audit",
-  "generatedAt": "2026-07-18T08:13:56.410Z",
+  "businessId": "20-year-old-tuckshop-long-term-modernization-lifecycle",
+  "generatedAt": "2026-07-18T08:13:56.419Z",
   "matches": [
-    {
-      "department": 12,
-      "name": "Digital Marketing & Advertising",
-      "score": 435,
-      "matchedKeywords": [
-        "marketing",
-        "category-match",
-        "explicit-trial-mapping",
-        "diagnosed-bottleneck:Exposure"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 11,
-      "name": "Social Media Management",
-      "score": 260,
-      "matchedKeywords": [
-        "category-match",
-        "explicit-trial-mapping"
-      ],
-      "relevant": true
-    },
     {
       "department": 6,
       "name": "System Integration & API",
-      "score": 100,
+      "score": 160,
       "matchedKeywords": [
-        "category-match"
+        "category-match",
+        "explicit-trial-mapping"
       ],
       "relevant": true
     },
@@ -43,20 +22,11 @@
       "relevant": true
     },
     {
-      "department": 24,
-      "name": "Human Resources & Talent Development",
-      "score": 100,
-      "matchedKeywords": [
-        "category-match"
-      ],
-      "relevant": true
-    },
-    {
       "department": 25,
       "name": "Project Management Office",
-      "score": 100,
+      "score": 80,
       "matchedKeywords": [
-        "category-match"
+        "diagnosed-bottleneck:Multi-System"
       ],
       "relevant": true
     },
@@ -70,8 +40,35 @@
       "relevant": true
     },
     {
+      "department": 13,
+      "name": "BSTM Tutorial Center",
+      "score": 60,
+      "matchedKeywords": [
+        "explicit-trial-mapping"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 17,
+      "name": "Finance & Accounting",
+      "score": 60,
+      "matchedKeywords": [
+        "explicit-trial-mapping"
+      ],
+      "relevant": true
+    },
+    {
       "department": 18,
       "name": "Marketplace & E-Commerce",
+      "score": 60,
+      "matchedKeywords": [
+        "explicit-trial-mapping"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 20,
+      "name": "Healthcare Information & Wellness",
       "score": 60,
       "matchedKeywords": [
         "explicit-trial-mapping"
@@ -128,8 +125,15 @@
       "relevant": false
     },
     {
-      "department": 13,
-      "name": "BSTM Tutorial Center",
+      "department": 11,
+      "name": "Social Media Management",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 12,
+      "name": "Digital Marketing & Advertising",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false
@@ -156,22 +160,8 @@
       "relevant": false
     },
     {
-      "department": 17,
-      "name": "Finance & Accounting",
-      "score": 0,
-      "matchedKeywords": [],
-      "relevant": false
-    },
-    {
       "department": 19,
       "name": "Research & Development",
-      "score": 0,
-      "matchedKeywords": [],
-      "relevant": false
-    },
-    {
-      "department": 20,
-      "name": "Healthcare Information & Wellness",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false
@@ -193,6 +183,13 @@
     {
       "department": 23,
       "name": "Sustainability & Environment",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 24,
+      "name": "Human Resources & Talent Development",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false

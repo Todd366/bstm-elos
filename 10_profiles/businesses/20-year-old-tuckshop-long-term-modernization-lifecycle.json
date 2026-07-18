@@ -19,12 +19,19 @@
     "Marketing & Customer Growth",
     "Customer Experience"
   ],
-  "recommendedDepartments": [],
+  "recommendedDepartments": [
+    6,
+    7,
+    25,
+    5,
+    13,
+    17
+  ],
   "completedImprovements": [],
   "patternHistory": [],
-  "confidenceScore": 0,
-  "lastUpdated": "2026-07-18T08:11:44.434Z",
-  "createdAt": "2026-07-18T08:11:44.434Z",
+  "confidenceScore": 85,
+  "lastUpdated": "2026-07-18T08:13:56.404Z",
+  "createdAt": "2026-07-18T08:13:56.404Z",
   "sourceTrial": "BSTM-100T-004",
   "explicitDepartments": [
     20,
