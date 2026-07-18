@@ -1,6 +1,6 @@
 {
   "businessId": "hermosa-beauty-spa-field-audit",
-  "generatedAt": "2026-07-18T08:13:56.413Z",
+  "generatedAt": "2026-07-18T08:18:12.270Z",
   "matches": [
     {
       "department": 12,
@@ -27,15 +27,6 @@
     {
       "department": 4,
       "name": "Web Development",
-      "score": 60,
-      "matchedKeywords": [
-        "explicit-trial-mapping"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 5,
-      "name": "Mobile Application Development",
       "score": 60,
       "matchedKeywords": [
         "explicit-trial-mapping"
@@ -77,6 +68,13 @@
     {
       "department": 3,
       "name": "VPN & Network Security",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 5,
+      "name": "Mobile Application Development",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false

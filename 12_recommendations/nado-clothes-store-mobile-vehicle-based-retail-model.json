@@ -1,6 +1,6 @@
 {
   "businessId": "nado-clothes-store-mobile-vehicle-based-retail-model",
-  "generatedAt": "2026-07-18T08:13:56.416Z",
+  "generatedAt": "2026-07-18T08:18:12.273Z",
   "recommendations": [
     {
       "priority": 1,
@@ -49,8 +49,8 @@
     },
     {
       "priority": 6,
-      "department": 5,
-      "name": "Mobile Application Development",
+      "department": 18,
+      "name": "Marketplace & E-Commerce",
       "reason": "Matched on: explicit-trial-mapping",
       "impact": 3,
       "estimatedDifficulty": "Medium",

@@ -1,6 +1,6 @@
 {
   "businessId": "20-year-old-tuckshop-long-term-modernization-lifecycle",
-  "generatedAt": "2026-07-18T08:13:56.419Z",
+  "generatedAt": "2026-07-18T08:18:12.274Z",
   "matches": [
     {
       "department": 6,
@@ -31,24 +31,6 @@
       "relevant": true
     },
     {
-      "department": 5,
-      "name": "Mobile Application Development",
-      "score": 60,
-      "matchedKeywords": [
-        "explicit-trial-mapping"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 13,
-      "name": "BSTM Tutorial Center",
-      "score": 60,
-      "matchedKeywords": [
-        "explicit-trial-mapping"
-      ],
-      "relevant": true
-    },
-    {
       "department": 17,
       "name": "Finance & Accounting",
       "score": 60,
@@ -60,15 +42,6 @@
     {
       "department": 18,
       "name": "Marketplace & E-Commerce",
-      "score": 60,
-      "matchedKeywords": [
-        "explicit-trial-mapping"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 20,
-      "name": "Healthcare Information & Wellness",
       "score": 60,
       "matchedKeywords": [
         "explicit-trial-mapping"
@@ -99,6 +72,13 @@
     {
       "department": 4,
       "name": "Web Development",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 5,
+      "name": "Mobile Application Development",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false
@@ -139,6 +119,13 @@
       "relevant": false
     },
     {
+      "department": 13,
+      "name": "BSTM Tutorial Center",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
       "department": 14,
       "name": "Private Security",
       "score": 0,
@@ -162,6 +149,13 @@
     {
       "department": 19,
       "name": "Research & Development",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 20,
+      "name": "Healthcare Information & Wellness",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false

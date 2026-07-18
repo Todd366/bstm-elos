@@ -1,6 +1,6 @@
 {
   "businessId": "nds-multi-service-hub-functional-overlap-challenges",
-  "generatedAt": "2026-07-18T08:13:56.421Z",
+  "generatedAt": "2026-07-18T08:18:12.276Z",
   "matches": [
     {
       "department": 25,
@@ -18,24 +18,6 @@
       "score": 100,
       "matchedKeywords": [
         "category-match"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 5,
-      "name": "Mobile Application Development",
-      "score": 60,
-      "matchedKeywords": [
-        "explicit-trial-mapping"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 17,
-      "name": "Finance & Accounting",
-      "score": 60,
-      "matchedKeywords": [
-        "explicit-trial-mapping"
       ],
       "relevant": true
     },
@@ -63,6 +45,13 @@
     {
       "department": 4,
       "name": "Web Development",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 5,
+      "name": "Mobile Application Development",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false
@@ -140,6 +129,13 @@
     {
       "department": 16,
       "name": "CabLink Transportation",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 17,
+      "name": "Finance & Accounting",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false

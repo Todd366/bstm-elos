@@ -52,18 +52,25 @@ const BOTTLENECK_TO_CATEGORY = {
   agility: "Operations",
 };
 
-function extractExplicitDepartments(text) {
+function extractExplicitDepartments(text, departments) {
   const found = new Set();
-  const re = /\b([1-9]|[12][0-9]|30)\b\s*[–—-]?\s*[A-Z][A-Za-z .&]{3,40}/g;
-  let m;
-  while ((m = re.exec(text)) !== null) {
-    const id = parseInt(m[1], 10);
-    if (id >= 1 && id <= 30) found.add(id);
-  }
-  const roomRe = /\bRoom\s+([1-9]|[12][0-9]|30)\b/gi;
-  while ((m = roomRe.exec(text)) !== null) {
-    found.add(parseInt(m[1], 10));
-  }
+
+  // Only trust a department number if the ACTUAL department name (or a close
+  // variant) appears within a short distance of it — not just any capitalized
+  // phrase. This avoids false positives from unrelated numbers/proper nouns.
+  departments.forEach((dept) => {
+    const nameParts = dept.name.split(/[&,]/).map((s) => s.trim()).filter(Boolean);
+    const namePattern = nameParts.map((p) => p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
+    const patterns = [
+      new RegExp(`\\b${dept.id}\\s*[–—-]\\s*(?:${namePattern})`, "i"),
+      new RegExp(`Room\\s+${dept.id}\\s*[–—(-]*\\s*(?:${namePattern})`, "i"),
+      new RegExp(`(?:${namePattern})\\s*[–—-]\\s*Room\\s+${dept.id}`, "i"),
+    ];
+    if (patterns.some((p) => p.test(text))) {
+      found.add(dept.id);
+    }
+  });
+
   return Array.from(found);
 }
 
@@ -94,7 +101,7 @@ function ingestTrial(filename) {
   const text = fs.readFileSync(filePath, "utf-8");
   const fm = parseFrontmatter(text);
   const ratings = parseChecklistRatings(text);
-  const explicitDepts = extractExplicitDepartments(text);
+  const explicitDepts = extractExplicitDepartments(text, departments);
 
   const categoryScoreLists = {};
   Object.entries(ratings).forEach(([dim, rating]) => {

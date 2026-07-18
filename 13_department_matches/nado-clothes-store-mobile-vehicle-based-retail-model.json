@@ -1,6 +1,6 @@
 {
   "businessId": "nado-clothes-store-mobile-vehicle-based-retail-model",
-  "generatedAt": "2026-07-18T08:13:56.415Z",
+  "generatedAt": "2026-07-18T08:18:12.272Z",
   "matches": [
     {
       "department": 12,
@@ -50,24 +50,6 @@
       "relevant": true
     },
     {
-      "department": 5,
-      "name": "Mobile Application Development",
-      "score": 60,
-      "matchedKeywords": [
-        "explicit-trial-mapping"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 16,
-      "name": "CabLink Transportation",
-      "score": 60,
-      "matchedKeywords": [
-        "explicit-trial-mapping"
-      ],
-      "relevant": true
-    },
-    {
       "department": 18,
       "name": "Marketplace & E-Commerce",
       "score": 60,
@@ -100,6 +82,13 @@
     {
       "department": 4,
       "name": "Web Development",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 5,
+      "name": "Mobile Application Development",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false
@@ -142,6 +131,13 @@
     {
       "department": 15,
       "name": "Music Department",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 16,
+      "name": "CabLink Transportation",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false

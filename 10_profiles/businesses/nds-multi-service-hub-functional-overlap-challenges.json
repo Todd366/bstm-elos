@@ -14,20 +14,15 @@
   "strengths": [],
   "recommendedDepartments": [
     25,
-    24,
-    5,
-    17
+    24
   ],
   "completedImprovements": [],
   "patternHistory": [],
   "confidenceScore": 85,
-  "lastUpdated": "2026-07-18T08:13:56.405Z",
-  "createdAt": "2026-07-18T08:13:56.405Z",
+  "lastUpdated": "2026-07-18T08:18:12.253Z",
+  "createdAt": "2026-07-18T08:18:12.253Z",
   "sourceTrial": "BSTM-100T-005",
-  "explicitDepartments": [
-    5,
-    17
-  ],
+  "explicitDepartments": [],
   "diagnosedBottleneck": "Multi-System",
   "usedBottleneckFallback": true
 }

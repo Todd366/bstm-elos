@@ -1,6 +1,6 @@
 {
   "businessId": "noemi-s-jewelry-store-field-audit",
-  "generatedAt": "2026-07-18T08:13:56.412Z",
+  "generatedAt": "2026-07-18T08:18:12.269Z",
   "recommendations": [
     {
       "priority": 1,
@@ -15,7 +15,7 @@
       "priority": 2,
       "department": 11,
       "name": "Social Media Management",
-      "reason": "Matched on: category-match, explicit-trial-mapping",
+      "reason": "Matched on: category-match",
       "impact": 5,
       "estimatedDifficulty": "Low",
       "estimatedTimelineWeeks": 2

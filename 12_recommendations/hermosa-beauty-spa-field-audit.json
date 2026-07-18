@@ -1,6 +1,6 @@
 {
   "businessId": "hermosa-beauty-spa-field-audit",
-  "generatedAt": "2026-07-18T08:13:56.414Z",
+  "generatedAt": "2026-07-18T08:18:12.271Z",
   "recommendations": [
     {
       "priority": 1,
@@ -31,15 +31,6 @@
     },
     {
       "priority": 4,
-      "department": 5,
-      "name": "Mobile Application Development",
-      "reason": "Matched on: explicit-trial-mapping",
-      "impact": 3,
-      "estimatedDifficulty": "Medium",
-      "estimatedTimelineWeeks": 4
-    },
-    {
-      "priority": 5,
       "department": 18,
       "name": "Marketplace & E-Commerce",
       "reason": "Matched on: explicit-trial-mapping",
@@ -48,7 +39,7 @@
       "estimatedTimelineWeeks": 4
     },
     {
-      "priority": 6,
+      "priority": 5,
       "department": 19,
       "name": "Research & Development",
       "reason": "Matched on: explicit-trial-mapping",

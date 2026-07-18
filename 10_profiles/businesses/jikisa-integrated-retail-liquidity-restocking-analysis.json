@@ -13,19 +13,15 @@
   ],
   "strengths": [],
   "recommendedDepartments": [
-    17,
-    5
+    17
   ],
   "completedImprovements": [],
   "patternHistory": [],
   "confidenceScore": 85,
-  "lastUpdated": "2026-07-18T08:13:56.407Z",
-  "createdAt": "2026-07-18T08:13:56.407Z",
+  "lastUpdated": "2026-07-18T08:18:12.263Z",
+  "createdAt": "2026-07-18T08:18:12.263Z",
   "sourceTrial": "BSTM-100T-006",
-  "explicitDepartments": [
-    5,
-    17
-  ],
+  "explicitDepartments": [],
   "diagnosedBottleneck": "Liquidity",
   "usedBottleneckFallback": true
 }
