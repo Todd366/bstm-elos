@@ -3,30 +3,35 @@
   "name": "Nado Clothes Store — Mobile Vehicle-Based Retail Model",
   "industry": "Bottleneck: Agility",
   "location": "Botswana",
-  "currentHealthScore": 63,
+  "currentHealthScore": 55,
   "categoryScores": {
     "Operations": 100,
-    "Technology Readiness": 50,
-    "Marketing & Customer Growth": 50,
-    "Customer Experience": 50
+    "Technology Readiness": 40,
+    "Marketing & Customer Growth": 40,
+    "Customer Experience": 40
   },
   "previousHealthScores": [],
-  "weaknesses": [],
+  "weaknesses": [
+    "Technology Readiness",
+    "Marketing & Customer Growth",
+    "Customer Experience"
+  ],
   "strengths": [
     "Operations"
   ],
   "recommendedDepartments": [
-    25,
-    5,
+    12,
+    11,
     6,
-    16,
-    18
+    7,
+    25,
+    5
   ],
   "completedImprovements": [],
   "patternHistory": [],
-  "confidenceScore": 50,
-  "lastUpdated": "2026-07-18T08:01:01.278Z",
-  "createdAt": "2026-07-18T08:01:01.278Z",
+  "confidenceScore": 85,
+  "lastUpdated": "2026-07-18T08:07:37.033Z",
+  "createdAt": "2026-07-18T08:07:37.033Z",
   "sourceTrial": "BSTM-100T-003",
   "explicitDepartments": [
     5,

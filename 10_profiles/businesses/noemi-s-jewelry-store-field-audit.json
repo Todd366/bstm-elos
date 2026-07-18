@@ -3,32 +3,34 @@
   "name": "Noemi's Jewelry Store — Field Audit",
   "industry": "Bottleneck: Exposure",
   "location": "Botswana",
-  "currentHealthScore": 35,
+  "currentHealthScore": 29,
   "categoryScores": {
-    "Operations": 38,
-    "Technology Readiness": 50,
+    "Operations": 35,
+    "Technology Readiness": 40,
     "Marketing & Customer Growth": 0,
-    "Customer Experience": 50
+    "Customer Experience": 40
   },
   "previousHealthScores": [],
   "weaknesses": [
     "Operations",
-    "Marketing & Customer Growth"
+    "Technology Readiness",
+    "Marketing & Customer Growth",
+    "Customer Experience"
   ],
   "strengths": [],
   "recommendedDepartments": [
     12,
     11,
+    6,
+    7,
     24,
-    25,
-    5,
-    18
+    25
   ],
   "completedImprovements": [],
   "patternHistory": [],
-  "confidenceScore": 65,
-  "lastUpdated": "2026-07-18T08:01:01.201Z",
-  "createdAt": "2026-07-18T08:01:01.201Z",
+  "confidenceScore": 85,
+  "lastUpdated": "2026-07-18T08:07:36.953Z",
+  "createdAt": "2026-07-18T08:07:36.953Z",
   "sourceTrial": "BSTM-100T-001",
   "explicitDepartments": [
     5,

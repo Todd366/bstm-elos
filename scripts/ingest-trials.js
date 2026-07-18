@@ -42,7 +42,7 @@ const DIMENSION_TO_CATEGORY = {
 // Wider rating vocabulary — "Not recorded" / "Not fully recorded" = no data, skip
 const RATING_SCORES = {
   good: 100, strong: 100,
-  fair: 50, moderate: 50,
+  fair: 40, moderate: 40,
   poor: 0, weak: 0,
 };
 

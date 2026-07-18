@@ -1,6 +1,6 @@
 {
   "businessId": "noemi-s-jewelry-store-field-audit",
-  "generatedAt": "2026-07-18T08:01:01.291Z",
+  "generatedAt": "2026-07-18T08:07:37.048Z",
   "recommendations": [
     {
       "priority": 1,
@@ -22,6 +22,24 @@
     },
     {
       "priority": 3,
+      "department": 6,
+      "name": "System Integration & API",
+      "reason": "Matched on: category-match",
+      "impact": 5,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    },
+    {
+      "priority": 4,
+      "department": 7,
+      "name": "Data Science & Analytics",
+      "reason": "Matched on: category-match",
+      "impact": 5,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    },
+    {
+      "priority": 5,
       "department": 24,
       "name": "Human Resources & Talent Development",
       "reason": "Matched on: category-match",
@@ -30,31 +48,13 @@
       "estimatedTimelineWeeks": 2
     },
     {
-      "priority": 4,
+      "priority": 6,
       "department": 25,
       "name": "Project Management Office",
       "reason": "Matched on: category-match",
       "impact": 5,
       "estimatedDifficulty": "Low",
       "estimatedTimelineWeeks": 2
-    },
-    {
-      "priority": 5,
-      "department": 5,
-      "name": "Mobile Application Development",
-      "reason": "Matched on: explicit-trial-mapping",
-      "impact": 3,
-      "estimatedDifficulty": "Medium",
-      "estimatedTimelineWeeks": 4
-    },
-    {
-      "priority": 6,
-      "department": 18,
-      "name": "Marketplace & E-Commerce",
-      "reason": "Matched on: explicit-trial-mapping",
-      "impact": 3,
-      "estimatedDifficulty": "Medium",
-      "estimatedTimelineWeeks": 4
     }
   ]
 }

@@ -1,11 +1,11 @@
 {
   "businessId": "noemi-s-jewelry-store-field-audit",
-  "generatedAt": "2026-07-18T08:01:01.289Z",
+  "generatedAt": "2026-07-18T08:07:37.046Z",
   "matches": [
     {
       "department": 12,
       "name": "Digital Marketing & Advertising",
-      "score": 335,
+      "score": 435,
       "matchedKeywords": [
         "marketing",
         "category-match",
@@ -17,10 +17,28 @@
     {
       "department": 11,
       "name": "Social Media Management",
-      "score": 160,
+      "score": 260,
       "matchedKeywords": [
         "category-match",
         "explicit-trial-mapping"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 6,
+      "name": "System Integration & API",
+      "score": 100,
+      "matchedKeywords": [
+        "category-match"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 7,
+      "name": "Data Science & Analytics",
+      "score": 100,
+      "matchedKeywords": [
+        "category-match"
       ],
       "relevant": true
     },
@@ -84,20 +102,6 @@
     {
       "department": 4,
       "name": "Web Development",
-      "score": 0,
-      "matchedKeywords": [],
-      "relevant": false
-    },
-    {
-      "department": 6,
-      "name": "System Integration & API",
-      "score": 0,
-      "matchedKeywords": [],
-      "relevant": false
-    },
-    {
-      "department": 7,
-      "name": "Data Science & Analytics",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false

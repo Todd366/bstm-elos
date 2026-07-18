@@ -1,7 +1,45 @@
 {
   "businessId": "nado-clothes-store-mobile-vehicle-based-retail-model",
-  "generatedAt": "2026-07-18T08:01:01.296Z",
+  "generatedAt": "2026-07-18T08:07:37.054Z",
   "matches": [
+    {
+      "department": 12,
+      "name": "Digital Marketing & Advertising",
+      "score": 295,
+      "matchedKeywords": [
+        "marketing",
+        "category-match"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 11,
+      "name": "Social Media Management",
+      "score": 200,
+      "matchedKeywords": [
+        "category-match"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 6,
+      "name": "System Integration & API",
+      "score": 160,
+      "matchedKeywords": [
+        "category-match",
+        "explicit-trial-mapping"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 7,
+      "name": "Data Science & Analytics",
+      "score": 100,
+      "matchedKeywords": [
+        "category-match"
+      ],
+      "relevant": true
+    },
     {
       "department": 25,
       "name": "Project Management Office",
@@ -14,15 +52,6 @@
     {
       "department": 5,
       "name": "Mobile Application Development",
-      "score": 60,
-      "matchedKeywords": [
-        "explicit-trial-mapping"
-      ],
-      "relevant": true
-    },
-    {
-      "department": 6,
-      "name": "System Integration & API",
       "score": 60,
       "matchedKeywords": [
         "explicit-trial-mapping"
@@ -76,13 +105,6 @@
       "relevant": false
     },
     {
-      "department": 7,
-      "name": "Data Science & Analytics",
-      "score": 0,
-      "matchedKeywords": [],
-      "relevant": false
-    },
-    {
       "department": 8,
       "name": "Blockchain & Cryptocurrency",
       "score": 0,
@@ -99,20 +121,6 @@
     {
       "department": 10,
       "name": "Content Creation & Copywriting",
-      "score": 0,
-      "matchedKeywords": [],
-      "relevant": false
-    },
-    {
-      "department": 11,
-      "name": "Social Media Management",
-      "score": 0,
-      "matchedKeywords": [],
-      "relevant": false
-    },
-    {
-      "department": 12,
-      "name": "Digital Marketing & Advertising",
       "score": 0,
       "matchedKeywords": [],
       "relevant": false
