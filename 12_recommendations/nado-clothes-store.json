@@ -1,0 +1,42 @@
+{
+  "businessId": "nado-clothes-store",
+  "generatedAt": "2026-07-18T07:57:14.789Z",
+  "recommendations": [
+    {
+      "priority": 1,
+      "department": 5,
+      "name": "Mobile Application Development",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    },
+    {
+      "priority": 2,
+      "department": 6,
+      "name": "System Integration & API",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    },
+    {
+      "priority": 3,
+      "department": 16,
+      "name": "CabLink Transportation",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    },
+    {
+      "priority": 4,
+      "department": 18,
+      "name": "Marketplace & E-Commerce",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    }
+  ]
+}

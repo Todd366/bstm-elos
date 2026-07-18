@@ -1,0 +1,60 @@
+{
+  "businessId": "20-year-old-tuckshop-long-term-modernization-lifecycle",
+  "generatedAt": "2026-07-18T07:57:14.792Z",
+  "recommendations": [
+    {
+      "priority": 1,
+      "department": 5,
+      "name": "Mobile Application Development",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    },
+    {
+      "priority": 2,
+      "department": 6,
+      "name": "System Integration & API",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    },
+    {
+      "priority": 3,
+      "department": 13,
+      "name": "BSTM Tutorial Center",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    },
+    {
+      "priority": 4,
+      "department": 17,
+      "name": "Finance & Accounting",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    },
+    {
+      "priority": 5,
+      "department": 18,
+      "name": "Marketplace & E-Commerce",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    },
+    {
+      "priority": 6,
+      "department": 20,
+      "name": "Healthcare Information & Wellness",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    }
+  ]
+}

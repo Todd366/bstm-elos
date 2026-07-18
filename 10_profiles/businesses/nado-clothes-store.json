@@ -1,0 +1,36 @@
+{
+  "businessId": "nado-clothes-store",
+  "name": "Nado Clothes Store",
+  "industry": "Mobile Clothing Retail",
+  "location": "Botswana",
+  "currentHealthScore": 63,
+  "categoryScores": {
+    "Operations": 100,
+    "Technology Readiness": 50,
+    "Marketing & Customer Growth": 50,
+    "Customer Experience": 50
+  },
+  "previousHealthScores": [],
+  "weaknesses": [],
+  "strengths": [
+    "Operations"
+  ],
+  "recommendedDepartments": [
+    5,
+    6,
+    16,
+    18
+  ],
+  "completedImprovements": [],
+  "patternHistory": [],
+  "confidenceScore": 50,
+  "lastUpdated": "2026-07-18T07:57:14.755Z",
+  "createdAt": "2026-07-18T07:57:14.755Z",
+  "sourceTrial": "BSTM-100T-003",
+  "explicitDepartments": [
+    5,
+    16,
+    18,
+    6
+  ]
+}

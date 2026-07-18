@@ -1,0 +1,60 @@
+{
+  "businessId": "hermosa-beauty-spa",
+  "generatedAt": "2026-07-18T07:57:14.787Z",
+  "recommendations": [
+    {
+      "priority": 1,
+      "department": 4,
+      "name": "Web Development",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    },
+    {
+      "priority": 2,
+      "department": 5,
+      "name": "Mobile Application Development",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    },
+    {
+      "priority": 3,
+      "department": 11,
+      "name": "Social Media Management",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    },
+    {
+      "priority": 4,
+      "department": 12,
+      "name": "Digital Marketing & Advertising",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    },
+    {
+      "priority": 5,
+      "department": 18,
+      "name": "Marketplace & E-Commerce",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    },
+    {
+      "priority": 6,
+      "department": 19,
+      "name": "Research & Development",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    }
+  ]
+}

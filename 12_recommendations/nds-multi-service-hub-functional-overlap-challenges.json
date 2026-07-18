@@ -1,0 +1,15 @@
+{
+  "businessId": "nds-multi-service-hub-functional-overlap-challenges",
+  "generatedAt": "2026-07-18T07:57:14.794Z",
+  "recommendations": [
+    {
+      "priority": 1,
+      "department": 5,
+      "name": "Mobile Application Development",
+      "reason": "Matched on: explicit-trial-mapping",
+      "impact": 3,
+      "estimatedDifficulty": "Medium",
+      "estimatedTimelineWeeks": 4
+    }
+  ]
+}

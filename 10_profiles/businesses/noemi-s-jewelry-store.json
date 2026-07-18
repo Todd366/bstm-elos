@@ -1,0 +1,35 @@
+{
+  "businessId": "noemi-s-jewelry-store",
+  "name": "Noemi's Jewelry Store",
+  "industry": "Jewelry Store",
+  "location": "Botswana",
+  "currentHealthScore": 35,
+  "categoryScores": {
+    "Operations": 38,
+    "Technology Readiness": 50,
+    "Marketing & Customer Growth": 0,
+    "Customer Experience": 50
+  },
+  "previousHealthScores": [],
+  "weaknesses": [
+    "Operations",
+    "Marketing & Customer Growth"
+  ],
+  "strengths": [],
+  "recommendedDepartments": [
+    12,
+    11,
+    24,
+    25,
+    5
+  ],
+  "completedImprovements": [],
+  "patternHistory": [],
+  "confidenceScore": 65,
+  "lastUpdated": "2026-07-18T07:57:14.633Z",
+  "createdAt": "2026-07-18T07:57:14.633Z",
+  "sourceTrial": "BSTM-100T-001",
+  "explicitDepartments": [
+    5
+  ]
+}

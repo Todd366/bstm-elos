@@ -1,0 +1,23 @@
+{
+  "businessId": "nds-multi-service-hub-functional-overlap-challenges",
+  "name": "NDS Multi-Service Hub — Functional Overlap Challenges",
+  "industry": "Unknown",
+  "location": "Botswana",
+  "currentHealthScore": 50,
+  "categoryScores": {},
+  "previousHealthScores": [],
+  "weaknesses": [],
+  "strengths": [],
+  "recommendedDepartments": [
+    5
+  ],
+  "completedImprovements": [],
+  "patternHistory": [],
+  "confidenceScore": 50,
+  "lastUpdated": "2026-07-18T07:57:14.763Z",
+  "createdAt": "2026-07-18T07:57:14.763Z",
+  "sourceTrial": "BSTM-100T-005",
+  "explicitDepartments": [
+    5
+  ]
+}
