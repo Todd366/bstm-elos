@@ -176,12 +176,8 @@ if (trialFiles.length === 0) {
 
 const newProfiles = trialFiles.map(ingestTrial);
 
-const allProfileFiles = fs.readdirSync(PROFILES_DIR).filter((f) => f.endsWith(".json"));
-const allProfiles = allProfileFiles.map((f) => JSON.parse(fs.readFileSync(path.join(PROFILES_DIR, f), "utf-8")));
-const patternResult = detectPatterns(allProfiles, rules);
-fs.writeFileSync(path.join(PATTERNS_DIR, "latest.json"), JSON.stringify(patternResult, null, 2));
-console.log(`\n✓ Pattern scan: ${patternResult.patterns.length} pattern(s) across ${allProfiles.length} profiles`);
-
+// PASS 1: match departments + generate recommendations for every profile FIRST,
+// so department demand data actually exists before pattern detection reads it.
 newProfiles.forEach((profile) => {
   const matches = matchDepartments(profile.weaknesses, departments, weights.matchThreshold);
 
@@ -246,7 +242,22 @@ newProfiles.forEach((profile) => {
     JSON.stringify(report, null, 2)
   );
 
-  console.log(`✓ Report: ${profile.name} → ${recommendations.length} dept(s), ${confidence}% confidence`);
+  console.log(`✓ Matched: ${profile.name} → ${recommendations.length} dept(s)`);
+});
+
+// PASS 2: NOW run pattern detection — every profile has recommendedDepartments set
+const allProfileFiles = fs.readdirSync(PROFILES_DIR).filter((f) => f.endsWith(".json"));
+const allProfiles = allProfileFiles.map((f) => JSON.parse(fs.readFileSync(path.join(PROFILES_DIR, f), "utf-8")));
+const patternResult = detectPatterns(allProfiles, rules);
+fs.writeFileSync(path.join(PATTERNS_DIR, "latest.json"), JSON.stringify(patternResult, null, 2));
+console.log(`\n✓ Pattern scan: ${patternResult.patterns.length} pattern(s), department demand across ${allProfiles.length} profiles`);
+
+// PASS 3: re-attach the now-complete pattern data into each business's final report
+newProfiles.forEach((profile) => {
+  const reportPath = path.join(OUTPUT_DIR, `intelligence-report-${profile.businessId}.json`);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf-8"));
+  report.detectedPatterns = patternResult.patterns.filter((p) => p.scope === "ecosystem" || p.industry === profile.industry);
+  fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
 });
 
 console.log("\n🧠 ELOS re-trained with wider rating vocabulary + bottleneck fallback.");

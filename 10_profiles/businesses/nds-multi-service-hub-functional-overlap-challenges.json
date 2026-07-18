@@ -12,17 +12,12 @@
     "Operations"
   ],
   "strengths": [],
-  "recommendedDepartments": [
-    25,
-    24,
-    5,
-    17
-  ],
+  "recommendedDepartments": [],
   "completedImprovements": [],
   "patternHistory": [],
-  "confidenceScore": 85,
-  "lastUpdated": "2026-07-18T08:07:37.037Z",
-  "createdAt": "2026-07-18T08:07:37.037Z",
+  "confidenceScore": 0,
+  "lastUpdated": "2026-07-18T08:11:44.435Z",
+  "createdAt": "2026-07-18T08:11:44.435Z",
   "sourceTrial": "BSTM-100T-005",
   "explicitDepartments": [
     5,
