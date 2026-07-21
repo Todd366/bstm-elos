@@ -1,0 +1,22 @@
+{
+  "source": "business-health-audit",
+  "business": {
+    "name": "Todd",
+    "industry": "Tech",
+    "location": "Otse"
+  },
+  "diagnosis": {
+    "strengths": [
+      "Digital Presence",
+      "Marketing & Customer Growth",
+      "Financial Management",
+      "Technology Readiness",
+      "Customer Experience",
+      "Growth & Strategy"
+    ],
+    "weaknesses": []
+  },
+  "timestamp": "2026-07-21T17:05:45.453Z",
+  "_receivedAt": "2026-07-21T17:05:46.110Z",
+  "_id": "business-health-audit-2026-07-21T17-05-46"
+}
