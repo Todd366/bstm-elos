@@ -1,0 +1,26 @@
+{
+  "businessId": "map-mod-investment",
+  "name": "Map mod investment ",
+  "industry": "Maintenance ",
+  "location": "Otse",
+  "currentHealthScore": 0,
+  "categoryScores": {},
+  "previousHealthScores": [],
+  "weaknesses": [
+    "Marketing & Customer Growth",
+    "Financial Management",
+    "Operations",
+    "Technology Readiness",
+    "Customer Experience",
+    "Growth & Strategy"
+  ],
+  "strengths": [
+    "Digital Presence"
+  ],
+  "recommendedDepartments": [],
+  "completedImprovements": [],
+  "patternHistory": [],
+  "confidenceScore": 0,
+  "lastUpdated": "2026-07-22T07:40:40.285Z",
+  "createdAt": "2026-07-22T07:40:40.285Z"
+}
