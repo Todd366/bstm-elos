@@ -1,0 +1,24 @@
+{
+  "source": "business-health-audit",
+  "business": {
+    "name": "Map mod investment ",
+    "industry": "Maintenance ",
+    "location": "Otse"
+  },
+  "diagnosis": {
+    "strengths": [
+      "Digital Presence"
+    ],
+    "weaknesses": [
+      "Marketing & Customer Growth",
+      "Financial Management",
+      "Operations",
+      "Technology Readiness",
+      "Customer Experience",
+      "Growth & Strategy"
+    ]
+  },
+  "timestamp": "2026-07-22T07:40:38.802Z",
+  "_receivedAt": "2026-07-22T07:40:39.410Z",
+  "_id": "business-health-audit-2026-07-22T07-40-39"
+}
