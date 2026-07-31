@@ -1,0 +1,42 @@
+{
+  "businessId": "a-irest-consultants",
+  "generatedAt": "2026-07-31T08:50:39.178Z",
+  "recommendations": [
+    {
+      "priority": 1,
+      "department": 12,
+      "name": "Digital Marketing & Advertising",
+      "reason": "Matched on: marketing, category-match",
+      "impact": 5,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    },
+    {
+      "priority": 2,
+      "department": 11,
+      "name": "Social Media Management",
+      "reason": "Matched on: category-match",
+      "impact": 5,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    },
+    {
+      "priority": 3,
+      "department": 24,
+      "name": "Human Resources & Talent Development",
+      "reason": "Matched on: category-match",
+      "impact": 5,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    },
+    {
+      "priority": 4,
+      "department": 25,
+      "name": "Project Management Office",
+      "reason": "Matched on: category-match",
+      "impact": 5,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    }
+  ]
+}
