@@ -1,5 +1,5 @@
 const { applyCors } = require("./_lib/cors");
-const { readJSON, listDir } = require("./_lib/github-read");
+const store = require("./_lib/supabase");
 const departments = require("../00_core/departments.json");
 
 module.exports = async function handler(req, res) {
@@ -9,14 +9,8 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const profileFiles = await listDir("10_profiles/businesses");
-  const profiles = [];
-  for (const f of profileFiles) {
-    const p = await readJSON(`10_profiles/businesses/${f.name}`);
-    if (p) profiles.push(p);
-  }
-
-  const patternResult = await readJSON("11_pattern_intelligence_auto/latest.json");
+  const profiles = await store.listAllBusinessProfiles();
+  const patternResult = await store.getLatestPatternScan();
 
   const deptDemandRaw = (patternResult && patternResult.departmentDemand) || {};
   const deptDemand = Object.entries(deptDemandRaw)

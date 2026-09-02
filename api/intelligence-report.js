@@ -1,5 +1,5 @@
 const { applyCors } = require("./_lib/cors");
-const { readJSON } = require("./_lib/github-read");
+const store = require("./_lib/supabase");
 
 module.exports = async function handler(req, res) {
   if (applyCors(req, res)) return;
@@ -12,7 +12,7 @@ module.exports = async function handler(req, res) {
     res.status(400).json({ error: "businessId query param required" });
     return;
   }
-  const report = await readJSON(`output/intelligence-report-${businessId}.json`);
+  const report = await store.getReport(businessId);
   if (!report) {
     res.status(404).json({ error: "Report not found for this businessId" });
     return;

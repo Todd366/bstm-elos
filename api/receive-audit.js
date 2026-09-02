@@ -1,6 +1,5 @@
 const { applyCors } = require("./_lib/cors");
-const { commitJSON } = require("./_lib/github-commit");
-const { readJSON, listDir } = require("./_lib/github-read");
+const store = require("./_lib/supabase");
 const { buildOrUpdateProfile, slugify } = require("../intelligence/profileBuilder");
 const { detectPatterns } = require("../intelligence/patternEngine");
 const { matchDepartments } = require("../intelligence/matcher");
@@ -21,93 +20,58 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const body = req.body || {};
-  const source = ALLOWED_SOURCES.includes(body.source) ? body.source : "unknown";
-  const now = new Date();
-  const stamp = now.toISOString().replace(/:/g, "-").split(".")[0];
+  try {
+    const body = req.body || {};
+    const source = ALLOWED_SOURCES.includes(body.source) ? body.source : "unknown";
+    const now = new Date();
 
-  // 1. Store raw observation (unchanged behavior)
-  const obsPath = `01_observations/${source}/${stamp}.json`;
-  const obsRecord = { ...body, _receivedAt: now.toISOString(), _id: `${source}-${stamp}` };
-  const obsResult = await commitJSON({
-    path: obsPath,
-    message: `Observation: ${source} @ ${now.toISOString()}`,
-    record: obsRecord,
-  });
+    const obsRecord = { ...body, _receivedAt: now.toISOString(), _id: `${source}-${now.toISOString()}` };
+    const obsResult = await store.upsertObservation(source, obsRecord);
 
-  // 2. Build / update business profile
-  const businessId = slugify(body.business?.name);
-  const profilePath = `10_profiles/businesses/${businessId}.json`;
-  const existingProfile = await readJSON(profilePath);
-  const profile = buildOrUpdateProfile(existingProfile, body);
-  await commitJSON({ path: profilePath, message: `Profile update: ${businessId}`, record: profile });
+    const businessId = slugify(body.business?.name);
+    const existingProfile = await store.getBusiness(businessId);
+    const profile = buildOrUpdateProfile(existingProfile, body);
+    await store.upsertBusiness(businessId, profile);
 
-  // 3. Detect patterns across ALL known profiles
-  const profileFiles = await listDir("10_profiles/businesses");
-  const allProfiles = [];
-  for (const f of profileFiles) {
-    const p = await readJSON(`10_profiles/businesses/${f.name}`);
-    if (p) allProfiles.push(p);
+    const allProfiles = await store.listAllBusinessProfiles();
+    const patternResult = detectPatterns(allProfiles, rules);
+    await store.upsertPatternScan(patternResult);
+
+    const matches = matchDepartments(profile.weaknesses, departments, weights.matchThreshold);
+    await store.upsertDepartmentMatches(businessId, { businessId, generatedAt: now.toISOString(), matches });
+
+    const recommendations = generateRecommendations(matches, weights.maxRecommendations);
+    await store.upsertRecommendations(businessId, { businessId, generatedAt: now.toISOString(), recommendations });
+
+    const learningLog = await store.getLearningLog();
+    const acceptanceRates = {};
+    departments.forEach((d) => {
+      const rate = calculateAcceptanceRate(learningLog, d.id);
+      if (rate !== null) acceptanceRates[d.id] = rate;
+    });
+    const confidence = calculateConfidence(profile, patternResult.patterns.length, acceptanceRates);
+    const report = {
+      businessId,
+      businessName: profile.name,
+      industry: profile.industry,
+      healthScore: profile.currentHealthScore,
+      criticalProblems: profile.weaknesses.length,
+      strengths: profile.strengths,
+      weaknesses: profile.weaknesses,
+      detectedPatterns: patternResult.patterns.filter((p) => p.industry === profile.industry),
+      recommendedDepartments: recommendations,
+      estimatedTimelineWeeks: recommendations.reduce((max, r) => Math.max(max, r.estimatedTimelineWeeks), 0),
+      confidence,
+      generatedAt: now.toISOString(),
+    };
+
+    profile.recommendedDepartments = recommendations.map((r) => r.department);
+    profile.confidenceScore = confidence;
+    await store.upsertBusiness(businessId, profile);
+    await store.upsertReport(businessId, report);
+
+    res.status(200).json({ received: true, observation: obsResult, businessId, report });
+  } catch (err) {
+    res.status(502).json({ received: false, error: String(err.message || err) });
   }
-  const patternResult = detectPatterns(allProfiles, rules);
-  await commitJSON({
-    path: `11_pattern_intelligence_auto/latest.json`,
-    message: `Pattern scan @ ${now.toISOString()}`,
-    record: patternResult,
-  });
-
-  // 4. Match against ALL 30 departments (always)
-  const matches = matchDepartments(profile.weaknesses, departments, weights.matchThreshold);
-  await commitJSON({
-    path: `13_department_matches/${businessId}.json`,
-    message: `Department match: ${businessId}`,
-    record: { businessId, generatedAt: now.toISOString(), matches },
-  });
-
-  // 5. Generate recommendations
-  const recommendations = generateRecommendations(matches, weights.maxRecommendations);
-  await commitJSON({
-    path: `12_recommendations/${businessId}.json`,
-    message: `Recommendations: ${businessId}`,
-    record: { businessId, generatedAt: now.toISOString(), recommendations },
-  });
-
-  // 6. Confidence + final intelligence report — factor in real acceptance history
-  const learningLog = (await readJSON("14_learning/decisions.json")) || { decisions: [] };
-  const acceptanceRates = {};
-  departments.forEach((d) => {
-    const rate = calculateAcceptanceRate(learningLog, d.id);
-    if (rate !== null) acceptanceRates[d.id] = rate;
-  });
-  const confidence = calculateConfidence(profile, patternResult.patterns.length, acceptanceRates);
-  const report = {
-    businessId,
-    businessName: profile.name,
-    industry: profile.industry,
-    healthScore: profile.currentHealthScore,
-    criticalProblems: profile.weaknesses.length,
-    strengths: profile.strengths,
-    weaknesses: profile.weaknesses,
-    detectedPatterns: patternResult.patterns.filter((p) => p.industry === profile.industry),
-    recommendedDepartments: recommendations,
-    estimatedTimelineWeeks: recommendations.reduce((max, r) => Math.max(max, r.estimatedTimelineWeeks), 0),
-    confidence,
-    generatedAt: now.toISOString(),
-  };
-
-  profile.recommendedDepartments = recommendations.map((r) => r.department);
-  profile.confidenceScore = confidence;
-  await commitJSON({ path: profilePath, message: `Profile finalized: ${businessId}`, record: profile });
-  await commitJSON({
-    path: `output/intelligence-report-${businessId}.json`,
-    message: `Intelligence report: ${businessId}`,
-    record: report,
-  });
-
-  res.status(200).json({
-    received: true,
-    observation: obsResult,
-    businessId,
-    report,
-  });
 };

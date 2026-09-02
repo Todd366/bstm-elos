@@ -1,16 +1,34 @@
-const { commitJSON } = require("./_lib/github-commit");
+const store = require("./_lib/supabase");
+const { applyCors } = require("./_lib/cors");
 
 module.exports = async function handler(req, res) {
+  if (applyCors(req, res)) return;
   if (req.method !== "POST") {
     res.status(405).json({ error: "Only POST allowed" });
     return;
   }
   const trial = req.body || {};
   const trialId = trial.trial_id || `UNTITLED-${Date.now()}`;
-  const path = `02_trial_intelligence_raw/${trialId}.json`;
   const now = new Date();
-  const record = { ...trial, _receivedAt: now.toISOString() };
 
-  const result = await commitJSON({ path, message: `Trial submitted: ${trialId}`, record });
-  res.status(result.stored === false && result.error ? 502 : 200).json({ received: true, ...result, id: trialId });
+  try {
+    const { error } = await store
+      .db()
+      .from("elos_trials")
+      .upsert(
+        {
+          trial_id: trialId,
+          business_slug: trial.business_slug || null,
+          title: trial.title || trialId,
+          content_md: trial.content_md || null,
+          data: { ...trial, _receivedAt: now.toISOString() },
+          updated_at: now.toISOString(),
+        },
+        { onConflict: "trial_id" }
+      );
+    if (error) throw error;
+    res.status(200).json({ received: true, stored: true, id: trialId });
+  } catch (err) {
+    res.status(502).json({ received: true, stored: false, error: String(err.message || err), id: trialId });
+  }
 };

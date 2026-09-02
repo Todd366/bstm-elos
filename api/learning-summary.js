@@ -1,5 +1,5 @@
 const { applyCors } = require("./_lib/cors");
-const { readJSON } = require("./_lib/github-read");
+const store = require("./_lib/supabase");
 const { calculateAcceptanceRate } = require("../intelligence/learning");
 const departments = require("../00_core/departments.json");
 
@@ -10,7 +10,7 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const log = (await readJSON("14_learning/decisions.json")) || { decisions: [] };
+  const log = await store.getLearningLog();
   const overallRate = calculateAcceptanceRate(log);
 
   const byDepartment = departments

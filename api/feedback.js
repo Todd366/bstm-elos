@@ -1,7 +1,6 @@
 const { applyCors } = require("./_lib/cors");
-const { commitJSON } = require("./_lib/github-commit");
-const { readJSON } = require("./_lib/github-read");
-const { recordDecision } = require("../intelligence/learning");
+const store = require("./_lib/supabase");
+const { recordDecision, calculateAcceptanceRate } = require("../intelligence/learning");
 
 module.exports = async function handler(req, res) {
   if (applyCors(req, res)) return;
@@ -16,15 +15,9 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const path = "14_learning/decisions.json";
-  const existing = (await readJSON(path)) || { decisions: [] };
-  const updated = recordDecision(existing, businessId, departmentId, decision);
+  const entry = recordDecision({ decisions: [] }, businessId, departmentId, decision).decisions[0];
+  const result = await store.recordLearningDecision(entry);
+  const log = await store.getLearningLog();
 
-  const result = await commitJSON({
-    path,
-    message: `Feedback: ${businessId} ${decision} dept ${departmentId}`,
-    record: updated,
-  });
-
-  res.status(200).json({ recorded: true, ...result, totalDecisions: updated.decisions.length });
+  res.status(200).json({ recorded: true, ...result, totalDecisions: log.decisions.length });
 };
