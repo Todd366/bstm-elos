@@ -1,0 +1,78 @@
+{
+  "businessId": "map-mod-investment",
+  "businessName": "Map mod investment ",
+  "industry": "Maintenance ",
+  "healthScore": 0,
+  "criticalProblems": 6,
+  "strengths": [
+    "Digital Presence"
+  ],
+  "weaknesses": [
+    "Marketing & Customer Growth",
+    "Financial Management",
+    "Operations",
+    "Technology Readiness",
+    "Customer Experience",
+    "Growth & Strategy"
+  ],
+  "detectedPatterns": [],
+  "recommendedDepartments": [
+    {
+      "priority": 1,
+      "department": 12,
+      "name": "Digital Marketing & Advertising",
+      "reason": "Matched on: marketing, category-match",
+      "impact": 5,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    },
+    {
+      "priority": 2,
+      "department": 11,
+      "name": "Social Media Management",
+      "reason": "Matched on: category-match",
+      "impact": 5,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    },
+    {
+      "priority": 3,
+      "department": 25,
+      "name": "Project Management Office",
+      "reason": "Matched on: category-match",
+      "impact": 5,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    },
+    {
+      "priority": 4,
+      "department": 6,
+      "name": "System Integration & API",
+      "reason": "Matched on: category-match",
+      "impact": 5,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    },
+    {
+      "priority": 5,
+      "department": 7,
+      "name": "Data Science & Analytics",
+      "reason": "Matched on: category-match",
+      "impact": 5,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    },
+    {
+      "priority": 6,
+      "department": 17,
+      "name": "Finance & Accounting",
+      "reason": "Matched on: category-match",
+      "impact": 5,
+      "estimatedDifficulty": "Low",
+      "estimatedTimelineWeeks": 2
+    }
+  ],
+  "estimatedTimelineWeeks": 2,
+  "confidence": 85,
+  "generatedAt": "2026-07-22T07:40:39.410Z"
+}

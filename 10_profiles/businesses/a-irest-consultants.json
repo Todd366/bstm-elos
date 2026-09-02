@@ -1,0 +1,24 @@
+{
+  "businessId": "a-irest-consultants",
+  "name": "A irest Consultants ",
+  "industry": "Construction ",
+  "location": "Kanye",
+  "currentHealthScore": 0,
+  "categoryScores": {},
+  "previousHealthScores": [],
+  "weaknesses": [
+    "Marketing & Customer Growth",
+    "Operations",
+    "Customer Experience"
+  ],
+  "strengths": [
+    "Digital Presence",
+    "Financial Management"
+  ],
+  "recommendedDepartments": [],
+  "completedImprovements": [],
+  "patternHistory": [],
+  "confidenceScore": 0,
+  "lastUpdated": "2026-07-31T08:50:40.125Z",
+  "createdAt": "2026-07-31T08:50:40.125Z"
+}

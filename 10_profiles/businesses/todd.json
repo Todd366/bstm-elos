@@ -1,0 +1,24 @@
+{
+  "businessId": "todd",
+  "name": "Todd",
+  "industry": "Tech",
+  "location": "Otse",
+  "currentHealthScore": 0,
+  "categoryScores": {},
+  "previousHealthScores": [],
+  "weaknesses": [],
+  "strengths": [
+    "Digital Presence",
+    "Marketing & Customer Growth",
+    "Financial Management",
+    "Technology Readiness",
+    "Customer Experience",
+    "Growth & Strategy"
+  ],
+  "recommendedDepartments": [],
+  "completedImprovements": [],
+  "patternHistory": [],
+  "confidenceScore": 0,
+  "lastUpdated": "2026-07-21T17:05:47.173Z",
+  "createdAt": "2026-07-21T17:05:47.173Z"
+}

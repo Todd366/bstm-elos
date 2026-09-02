@@ -1,0 +1,24 @@
+{
+  "businessId": "combi",
+  "name": "Combi",
+  "industry": "Transport",
+  "location": "Gaborone",
+  "currentHealthScore": 0,
+  "categoryScores": {},
+  "previousHealthScores": [],
+  "weaknesses": [
+    "Marketing & Customer Growth",
+    "Financial Management",
+    "Operations",
+    "Technology Readiness",
+    "Customer Experience",
+    "Growth & Strategy"
+  ],
+  "strengths": [],
+  "recommendedDepartments": [],
+  "completedImprovements": [],
+  "patternHistory": [],
+  "confidenceScore": 0,
+  "lastUpdated": "2026-07-25T18:56:35.223Z",
+  "createdAt": "2026-07-25T18:56:35.223Z"
+}

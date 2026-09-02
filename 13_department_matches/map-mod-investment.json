@@ -1,0 +1,233 @@
+{
+  "businessId": "map-mod-investment",
+  "generatedAt": "2026-07-22T07:40:39.410Z",
+  "matches": [
+    {
+      "department": 12,
+      "name": "Digital Marketing & Advertising",
+      "score": 295,
+      "matchedKeywords": [
+        "marketing",
+        "category-match"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 11,
+      "name": "Social Media Management",
+      "score": 200,
+      "matchedKeywords": [
+        "category-match"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 25,
+      "name": "Project Management Office",
+      "score": 200,
+      "matchedKeywords": [
+        "category-match"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 6,
+      "name": "System Integration & API",
+      "score": 100,
+      "matchedKeywords": [
+        "category-match"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 7,
+      "name": "Data Science & Analytics",
+      "score": 100,
+      "matchedKeywords": [
+        "category-match"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 17,
+      "name": "Finance & Accounting",
+      "score": 100,
+      "matchedKeywords": [
+        "category-match"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 19,
+      "name": "Research & Development",
+      "score": 100,
+      "matchedKeywords": [
+        "category-match"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 24,
+      "name": "Human Resources & Talent Development",
+      "score": 100,
+      "matchedKeywords": [
+        "category-match"
+      ],
+      "relevant": true
+    },
+    {
+      "department": 1,
+      "name": "AI & Machine Learning",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 2,
+      "name": "Trading Automation",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 3,
+      "name": "VPN & Network Security",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 4,
+      "name": "Web Development",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 5,
+      "name": "Mobile Application Development",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 8,
+      "name": "Blockchain & Cryptocurrency",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 9,
+      "name": "Graphic Design & Branding",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 10,
+      "name": "Content Creation & Copywriting",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 13,
+      "name": "BSTM Tutorial Center",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 14,
+      "name": "Private Security",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 15,
+      "name": "Music Department",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 16,
+      "name": "CabLink Transportation",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 18,
+      "name": "Marketplace & E-Commerce",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 20,
+      "name": "Healthcare Information & Wellness",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 21,
+      "name": "Nutrition & Health Products",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 22,
+      "name": "Micro Farming & Urban Agriculture",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 23,
+      "name": "Sustainability & Environment",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 26,
+      "name": "Legal & Compliance",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 27,
+      "name": "G.I.N — Global Intelligence Network",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 28,
+      "name": "BSTM Clothing Brand",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 29,
+      "name": "Spiritual Guidance & Consciousness",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    },
+    {
+      "department": 30,
+      "name": "BHD — Black Hole Drive",
+      "score": 0,
+      "matchedKeywords": [],
+      "relevant": false
+    }
+  ]
+}

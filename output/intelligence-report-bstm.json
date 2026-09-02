@@ -1,0 +1,22 @@
+{
+  "businessId": "bstm",
+  "businessName": "Bstm",
+  "industry": "Tech",
+  "healthScore": 0,
+  "criticalProblems": 0,
+  "strengths": [
+    "Digital Presence",
+    "Marketing & Customer Growth",
+    "Financial Management",
+    "Operations",
+    "Technology Readiness",
+    "Customer Experience",
+    "Growth & Strategy"
+  ],
+  "weaknesses": [],
+  "detectedPatterns": [],
+  "recommendedDepartments": [],
+  "estimatedTimelineWeeks": 0,
+  "confidence": 70,
+  "generatedAt": "2026-07-18T14:16:58.511Z"
+}

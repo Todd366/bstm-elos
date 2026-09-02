@@ -1,0 +1,22 @@
+{
+  "source": "business-health-audit",
+  "business": {
+    "name": "A irest Consultants ",
+    "industry": "Construction ",
+    "location": "Kanye"
+  },
+  "diagnosis": {
+    "strengths": [
+      "Digital Presence",
+      "Financial Management"
+    ],
+    "weaknesses": [
+      "Marketing & Customer Growth",
+      "Operations",
+      "Customer Experience"
+    ]
+  },
+  "timestamp": "2026-07-31T08:50:38.490Z",
+  "_receivedAt": "2026-07-31T08:50:39.178Z",
+  "_id": "business-health-audit-2026-07-31T08-50-39"
+}

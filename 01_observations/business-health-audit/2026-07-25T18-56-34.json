@@ -1,0 +1,22 @@
+{
+  "source": "business-health-audit",
+  "business": {
+    "name": "Combi",
+    "industry": "Transport",
+    "location": "Gaborone"
+  },
+  "diagnosis": {
+    "strengths": [],
+    "weaknesses": [
+      "Marketing & Customer Growth",
+      "Financial Management",
+      "Operations",
+      "Technology Readiness",
+      "Customer Experience",
+      "Growth & Strategy"
+    ]
+  },
+  "timestamp": "2026-07-25T18:56:33.584Z",
+  "_receivedAt": "2026-07-25T18:56:34.188Z",
+  "_id": "business-health-audit-2026-07-25T18-56-34"
+}

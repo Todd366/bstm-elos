@@ -1,0 +1,21 @@
+{
+  "businessId": "todd",
+  "businessName": "Todd",
+  "industry": "Tech",
+  "healthScore": 0,
+  "criticalProblems": 0,
+  "strengths": [
+    "Digital Presence",
+    "Marketing & Customer Growth",
+    "Financial Management",
+    "Technology Readiness",
+    "Customer Experience",
+    "Growth & Strategy"
+  ],
+  "weaknesses": [],
+  "detectedPatterns": [],
+  "recommendedDepartments": [],
+  "estimatedTimelineWeeks": 0,
+  "confidence": 50,
+  "generatedAt": "2026-07-21T17:05:46.110Z"
+}
