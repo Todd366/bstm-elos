@@ -1,0 +1,18 @@
+name: ELOS Sentinel Audit
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Run ELOS Sentinel Audit (repo/trial/pattern/principle integrity gate)
+        run: node 08_sentinel_audit/ci-gate.js 60

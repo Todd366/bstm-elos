@@ -110,15 +110,46 @@ async function upsertReport(businessId, report) {
 
 async function getLearningLog() {
   const { data, error } = await db().from("elos_learning_records").select("data").order("created_at", { ascending: true });
-  if (error) return { decisions: [] };
-  const decisions = (data || []).map((r) => r.data).filter((d) => d && d.businessId);
-  return { decisions };
+  if (error) return { decisions: [], outcomes: [] };
+  const rows = (data || []).map((r) => r.data).filter(Boolean);
+  const decisions = rows.filter((d) => d.decision);
+  const outcomes = rows.filter((d) => d.result);
+  return { decisions, outcomes };
 }
 
 async function recordLearningDecision(entry) {
   const { error } = await db().from("elos_learning_records").insert({ data: entry, new_knowledge: entry.decision });
   if (error) return { stored: false, error: error.message };
   return { stored: true };
+}
+
+async function recordLearningOutcome(entry, recommendationId) {
+  const { error } = await db()
+    .from("elos_learning_records")
+    .insert({ data: entry, related_recommendation: recommendationId || null, new_knowledge: entry.result });
+  if (error) return { stored: false, error: error.message };
+
+  // Also log to elos_outcomes for direct expected-vs-actual queries/reporting.
+  await db().from("elos_outcomes").insert({
+    recommendation_id: recommendationId || null,
+    expected: entry.expected,
+    actual: entry.actual,
+    result: entry.result,
+  });
+
+  return { stored: true };
+}
+
+async function findLatestRecommendationId(businessSlug) {
+  const { data, error } = await db()
+    .from("elos_recommendations")
+    .select("id")
+    .eq("business_slug", businessSlug)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (error || !data) return null;
+  return data.id;
 }
 
 async function listObservations(sources) {
@@ -164,5 +195,7 @@ module.exports = {
   upsertReport,
   getLearningLog,
   recordLearningDecision,
+  recordLearningOutcome,
+  findLatestRecommendationId,
   listObservations,
 };

@@ -62,3 +62,38 @@
 - `api/outcomes.js` — record actual vs expected outcome per recommendation,
   feed into `elos_learning_records` and confidence calibration.
 - Command Center dashboard reading live from `elos_events` / `elos_insights`.
+
+## Phase 4 — Outcome/learning calibration loop + CI health gate
+
+- `api/outcomes.js` (POST) — records the ACTUAL result of an implemented
+  recommendation (`positive`/`negative`/`neutral`), distinct from mere human
+  acceptance (`api/feedback.js`). Writes to `elos_outcomes` +
+  `elos_learning_records`, links to the business's latest recommendation,
+  and emits a `RECOMMENDATION_OUTCOME_RECORDED` event.
+- `intelligence/learning.js` — added `recordOutcome()` /
+  `calculateOutcomeSuccessRate()`.
+- `intelligence/confidence.js` — now takes a second, more heavily-weighted
+  signal (outcome success rate, weight 0.35 vs acceptance's 0.2). This is
+  what actually closes the ELOS loop per the spec's System 14 (Learning
+  Engine): confidence now moves based on whether recommendations were
+  proven right in reality, not just whether a human liked them.
+- `api/receive-audit.js` now computes both acceptance AND outcome rates per
+  department and feeds both into `calculateConfidence()`.
+- `api/learning-summary.js` (GET) now reports both `acceptanceRate` and
+  `outcomeSuccessRate` per department.
+- `08_sentinel_audit/ci-gate.js` + `.github/workflows/sentinel-audit.yml` —
+  every push/PR to master now runs the Sentinel Audit and fails CI if the
+  ecosystem health score drops below 60. Zero npm dependencies, pure Node.
+
+## How to record an outcome (example)
+```
+POST /api/outcomes
+{
+  "businessId": "noemi-s-jewelry-store-field-audit",
+  "departmentId": 12,
+  "result": "positive",
+  "expected": "increase in profile views",
+  "actual": "45 unique views in 48hrs",
+  "notes": "Digital catalog listing went live"
+}
+```

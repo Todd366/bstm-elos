@@ -6,7 +6,7 @@ const { classifyArchetype, applyArchetypeGuardrail } = require("../intelligence/
 const { matchDepartments } = require("../intelligence/matcher");
 const { generateRecommendations } = require("../intelligence/recommender");
 const { calculateConfidence } = require("../intelligence/confidence");
-const { calculateAcceptanceRate } = require("../intelligence/learning");
+const { calculateAcceptanceRate, calculateOutcomeSuccessRate } = require("../intelligence/learning");
 
 const departments = require("../00_core/departments.json");
 const rules = require("../00_core/rules.json");
@@ -65,11 +65,14 @@ module.exports = async function handler(req, res) {
 
     const learningLog = await store.getLearningLog();
     const acceptanceRates = {};
+    const outcomeRates = {};
     departments.forEach((d) => {
       const rate = calculateAcceptanceRate(learningLog, d.id);
       if (rate !== null) acceptanceRates[d.id] = rate;
+      const outcomeRate = calculateOutcomeSuccessRate(learningLog, d.id);
+      if (outcomeRate !== null) outcomeRates[d.id] = outcomeRate;
     });
-    const confidence = calculateConfidence(profile, patternResult.patterns.length, acceptanceRates);
+    const confidence = calculateConfidence(profile, patternResult.patterns.length, acceptanceRates, outcomeRates);
     const report = {
       businessId,
       businessName: profile.name,
