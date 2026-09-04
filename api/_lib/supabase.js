@@ -131,8 +131,27 @@ async function listObservations(sources) {
   return (data || []).map((r) => ({ source: r.app, ...r.data }));
 }
 
+async function insertEvent(event) {
+  const { data, error } = await db().from("elos_events").insert(event).select("event_id").maybeSingle();
+  if (error) return { stored: false, error: error.message };
+  return { stored: true, event_id: data ? data.event_id : null };
+}
+
+async function listEvents({ source, entity_type, entity_id, event_type, limit = 50 } = {}) {
+  let q = db().from("elos_events").select("*").order("created_at", { ascending: false }).limit(limit);
+  if (source) q = q.eq("source", source);
+  if (entity_type) q = q.eq("entity_type", entity_type);
+  if (entity_id) q = q.eq("entity_id", entity_id);
+  if (event_type) q = q.eq("event_type", event_type);
+  const { data, error } = await q;
+  if (error) return [];
+  return data || [];
+}
+
 module.exports = {
   db,
+  insertEvent,
+  listEvents,
   upsertObservation,
   getBusiness,
   upsertBusiness,

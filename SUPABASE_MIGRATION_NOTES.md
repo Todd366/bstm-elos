@@ -35,3 +35,30 @@
 
 ## Old GitHub-based env vars (no longer used, safe to remove from Vercel)
 - `GITHUB_TOKEN`, `GITHUB_REPO`
+
+## Phase 3 — Archetype engine + generic event ingestion
+
+- `intelligence/archetypeEngine.js` — classifies every audited business into one
+  of the 4 field-confirmed archetypes (Exposure / Agility / Multi-System /
+  Liquidity) or Unclassified, using the same signatures documented in
+  `03_pattern_intelligence/`. Wired into `api/receive-audit.js` right after
+  profile build.
+- **BSTM-PRIN-008 guardrail is now enforced in code**, not just documented:
+  `applyArchetypeGuardrail()` suppresses Social Media (11) / Digital Marketing
+  (12) recommendations and boosts Finance & Accounting (17) for any business
+  classified as Liquidity type.
+- `api/events.js` (POST) + `api/list-events.js` (GET) — generic ELOS event
+  ingestion per the spec's Standard Event Object. Any BSTM app (CabLink,
+  FlowLedger, Marketplace, BSTM-X, THoBoCoin) can now POST events here instead
+  of needing a bespoke endpoint. Writes to `elos_events`.
+- `receive-audit.js` now also emits a `BUSINESS_HEALTH_AUDIT_PROCESSED` event
+  into `elos_events` on every run — this is the first real usage of the event
+  bus and the foundation for Phase 4 (outcome/learning loop).
+- All 11 existing businesses backfilled with archetype classification directly
+  in Supabase (6 use ground-truth archetypes from their confirmed field trials,
+  5 use live classifier output).
+
+## Next (Phase 4, not yet built)
+- `api/outcomes.js` — record actual vs expected outcome per recommendation,
+  feed into `elos_learning_records` and confidence calibration.
+- Command Center dashboard reading live from `elos_events` / `elos_insights`.

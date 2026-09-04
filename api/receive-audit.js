@@ -2,6 +2,7 @@ const { applyCors } = require("./_lib/cors");
 const store = require("./_lib/supabase");
 const { buildOrUpdateProfile, slugify } = require("../intelligence/profileBuilder");
 const { detectPatterns } = require("../intelligence/patternEngine");
+const { classifyArchetype, applyArchetypeGuardrail } = require("../intelligence/archetypeEngine");
 const { matchDepartments } = require("../intelligence/matcher");
 const { generateRecommendations } = require("../intelligence/recommender");
 const { calculateConfidence } = require("../intelligence/confidence");
@@ -31,17 +32,36 @@ module.exports = async function handler(req, res) {
     const businessId = slugify(body.business?.name);
     const existingProfile = await store.getBusiness(businessId);
     const profile = buildOrUpdateProfile(existingProfile, body);
+
+    // Archetype classification — operationalizes the 6-trial pattern intelligence
+    const archetypeResult = classifyArchetype(profile);
+    profile.archetype = archetypeResult.archetype;
+    profile.archetypeConfidence = archetypeResult.confidence;
+    profile.archetypeEvidence = archetypeResult.evidence;
+    profile.archetypeGuardrail = archetypeResult.guardrail;
     await store.upsertBusiness(businessId, profile);
 
     const allProfiles = await store.listAllBusinessProfiles();
     const patternResult = detectPatterns(allProfiles, rules);
     await store.upsertPatternScan(patternResult);
 
-    const matches = matchDepartments(profile.weaknesses, departments, weights.matchThreshold);
-    await store.upsertDepartmentMatches(businessId, { businessId, generatedAt: now.toISOString(), matches });
+    let matches = matchDepartments(profile.weaknesses, departments, weights.matchThreshold);
+    matches = applyArchetypeGuardrail(matches, archetypeResult);
+    await store.upsertDepartmentMatches(businessId, {
+      businessId,
+      generatedAt: now.toISOString(),
+      archetype: archetypeResult.archetype,
+      matches,
+    });
 
     const recommendations = generateRecommendations(matches, weights.maxRecommendations);
-    await store.upsertRecommendations(businessId, { businessId, generatedAt: now.toISOString(), recommendations });
+    await store.upsertRecommendations(businessId, {
+      businessId,
+      generatedAt: now.toISOString(),
+      archetype: archetypeResult.archetype,
+      guardrailApplied: archetypeResult.guardrail,
+      recommendations,
+    });
 
     const learningLog = await store.getLearningLog();
     const acceptanceRates = {};
@@ -55,6 +75,9 @@ module.exports = async function handler(req, res) {
       businessName: profile.name,
       industry: profile.industry,
       healthScore: profile.currentHealthScore,
+      archetype: archetypeResult.archetype,
+      archetypeConfidence: archetypeResult.confidence,
+      archetypeGuardrailNote: archetypeResult.guardrailNote,
       criticalProblems: profile.weaknesses.length,
       strengths: profile.strengths,
       weaknesses: profile.weaknesses,
@@ -69,6 +92,16 @@ module.exports = async function handler(req, res) {
     profile.confidenceScore = confidence;
     await store.upsertBusiness(businessId, profile);
     await store.upsertReport(businessId, report);
+
+    await store.insertEvent({
+      event_type: "BUSINESS_HEALTH_AUDIT_PROCESSED",
+      source,
+      entity_type: "BUSINESS",
+      entity_id: businessId,
+      data: { archetype: archetypeResult.archetype, healthScore: profile.currentHealthScore },
+      confidence: confidence / 100,
+      status: "PROCESSED",
+    });
 
     res.status(200).json({ received: true, observation: obsResult, businessId, report });
   } catch (err) {
