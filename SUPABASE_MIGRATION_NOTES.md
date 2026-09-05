@@ -130,3 +130,18 @@ POST /api/outcomes
   other app depends on it before removing.
 - `GITHUB_REPO` — leftover from the pre-Supabase era, safe to remove if
   still present (GITHUB_TOKEN was already removed).
+
+## Phase 5.1 — bugfix: archetype missing from ecosystem-intelligence + stale pattern scan
+
+Found while verifying Phase 5 in production:
+- `api/ecosystem-intelligence.js` never included `archetype`/`archetypeConfidence`
+  in its `businesses` array, even though the Command Center dashboard reads
+  `b.archetype`. Fixed — now included.
+- `elos_patterns.auto-latest-scan` had never been written because no live
+  `/api/receive-audit` call has run since the Supabase migration (all data
+  since has come in via direct SQL migration, not the API). This made
+  `topDepartmentDemand` and `detectedPatterns` show empty on the dashboard
+  despite 11 real businesses with clear demand. Backfilled directly in
+  Supabase using the same computation `detectPatterns()` performs, so the
+  dashboard isn't empty on first load. It will self-correct going forward:
+  the next real `/api/receive-audit` call recomputes and overwrites this row.

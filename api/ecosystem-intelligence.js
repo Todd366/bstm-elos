@@ -42,6 +42,8 @@ module.exports = async function handler(req, res) {
       weaknesses: p.weaknesses,
       recommendedDepartments: p.recommendedDepartments,
       confidence: p.confidenceScore,
+      archetype: p.archetype || "Unclassified",
+      archetypeConfidence: p.archetypeConfidence != null ? p.archetypeConfidence : null,
     })),
   });
 };
