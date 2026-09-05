@@ -36,6 +36,8 @@ async function router() {
       setActiveNav('patterns'); await renderPatterns(view);
     } else if (route === 'principles') {
       setActiveNav('principles'); await renderPrinciples(view);
+    } else if (route === 'intelligence') {
+      setActiveNav('intelligence'); await renderIntelligence(view);
     } else if (route === 'ecosystem') {
       setActiveNav('ecosystem'); await renderEcosystem(view);
     } else if (route === 'scorecard') {

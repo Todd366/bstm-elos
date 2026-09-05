@@ -1,4 +1,5 @@
 const { applyCors } = require("./_lib/cors");
+const { requireApiKey } = require("./_lib/auth");
 const store = require("./_lib/supabase");
 const { recordDecision, calculateAcceptanceRate } = require("../intelligence/learning");
 
@@ -8,6 +9,7 @@ module.exports = async function handler(req, res) {
     res.status(405).json({ error: "Only POST allowed" });
     return;
   }
+  if (!requireApiKey(req, res)) return;
 
   const { businessId, departmentId, decision } = req.body || {};
   if (!businessId || !departmentId || !["accepted", "rejected"].includes(decision)) {

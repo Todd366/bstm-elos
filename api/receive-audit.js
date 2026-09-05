@@ -1,4 +1,5 @@
 const { applyCors } = require("./_lib/cors");
+const { requireApiKey } = require("./_lib/auth");
 const store = require("./_lib/supabase");
 const { buildOrUpdateProfile, slugify } = require("../intelligence/profileBuilder");
 const { detectPatterns } = require("../intelligence/patternEngine");
@@ -20,6 +21,7 @@ module.exports = async function handler(req, res) {
     res.status(405).json({ error: "Only POST allowed" });
     return;
   }
+  if (!requireApiKey(req, res)) return;
 
   try {
     const body = req.body || {};

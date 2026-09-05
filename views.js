@@ -250,7 +250,102 @@ async function renderEcosystem(view) {
   });
 }
 
-/* ---------------- Scorecard ---------------- */
+/* ---------------- Command Center (live Supabase data) ---------------- */
+const ARCHETYPE_BADGE = {
+  Exposure: "badge-fair",
+  Agility: "badge-outline",
+  "Multi-System": "badge-poor",
+  Liquidity: "badge-good",
+  Unclassified: "badge-outline",
+};
+
+async function renderIntelligence(view) {
+  view.innerHTML = `<h1>Command Center</h1><p class="subtitle">Loading live ecosystem intelligence…</p>`;
+
+  let eco, learning, events;
+  try {
+    [eco, learning, events] = await Promise.all([
+      fetch('/api/ecosystem-intelligence').then(r => r.json()),
+      fetch('/api/learning-summary').then(r => r.json()),
+      fetch('/api/list-events?limit=15').then(r => r.json()),
+    ]);
+  } catch (err) {
+    view.innerHTML = `<h1>Command Center</h1><div class="empty"><div class="big">⚠️</div>Couldn't reach the live ELOS API.<br><span style="font-size:11px;color:var(--text-faint)">${err.message}</span></div>`;
+    return;
+  }
+
+  const healthBadge = (score) => score >= 70 ? 'badge-good' : score >= 40 ? 'badge-fair' : 'badge-poor';
+
+  view.innerHTML = `
+    <h1>Command Center</h1>
+    <p class="subtitle">Live intelligence from the ELOS engine — every number below is queried from Postgres in real time.</p>
+
+    <div class="grid">
+      <div class="card"><div class="num">${eco.totalBusinessesProfiled}</div><div class="label">Businesses Profiled</div></div>
+      <div class="card"><div class="num">${eco.averageHealthScore}</div><div class="label">Avg Health Score</div></div>
+      <div class="card"><div class="num">${eco.averageConfidence}%</div><div class="label">Avg Confidence</div></div>
+      <div class="card"><div class="num">${learning.totalOutcomesRecorded}</div><div class="label">Outcomes Recorded</div></div>
+    </div>
+
+    <h2>Businesses &amp; Archetypes</h2>
+    <table>
+      <thead><tr><th>Business</th><th>Health</th><th>Archetype</th><th>Confidence</th></tr></thead>
+      <tbody>
+        ${eco.businesses.map(b => `
+          <tr>
+            <td>${b.name}</td>
+            <td><span class="badge ${healthBadge(b.healthScore)}">${b.healthScore}</span></td>
+            <td><span class="badge ${ARCHETYPE_BADGE[b.archetype] || 'badge-outline'}">${b.archetype || 'Unclassified'}</span></td>
+            <td>${b.confidence != null ? b.confidence + '%' : '—'}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+
+    <h2>Department Demand</h2>
+    ${eco.topDepartmentDemand.length ? `
+      <table>
+        <thead><tr><th>Department</th><th>Businesses Needing It</th></tr></thead>
+        <tbody>
+          ${eco.topDepartmentDemand.map(d => `<tr><td>${d.name}</td><td>${d.businessesNeedingIt}</td></tr>`).join('')}
+        </tbody>
+      </table>
+    ` : `<div class="empty">No department demand aggregated yet.</div>`}
+
+    <h2>Learning Loop — Acceptance vs. Real Outcomes</h2>
+    ${learning.byDepartment.length ? `
+      <table>
+        <thead><tr><th>Department</th><th>Acceptance Rate</th><th>Outcome Success Rate</th></tr></thead>
+        <tbody>
+          ${learning.byDepartment.map(d => `
+            <tr>
+              <td>${d.name}</td>
+              <td>${d.acceptanceRate != null ? d.acceptanceRate + '% (' + d.totalDecisions + ')' : '—'}</td>
+              <td>${d.outcomeSuccessRate != null ? '<span class="badge ' + healthBadge(d.outcomeSuccessRate) + '">' + d.outcomeSuccessRate + '%</span> (' + d.totalOutcomes + ')' : '—'}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    ` : `<div class="empty">No decisions or outcomes recorded yet — use /api/feedback and /api/outcomes to start closing the loop.</div>`}
+
+    <h2>Recent Events</h2>
+    ${events.events.length ? `
+      <table>
+        <thead><tr><th>Type</th><th>Entity</th><th>When</th></tr></thead>
+        <tbody>
+          ${events.events.map(e => `
+            <tr>
+              <td>${e.event_type}</td>
+              <td>${e.entity_type || '—'}${e.entity_id ? ' · ' + e.entity_id : ''}</td>
+              <td>${new Date(e.created_at).toLocaleString()}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    ` : `<div class="empty">No events logged yet.</div>`}
+  `;
+}
+
 async function renderScorecard(view) {
   const trials = await ELOSDB.getAll('trials');
   const sc = computeScorecard(trials);

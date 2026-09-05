@@ -97,3 +97,36 @@ POST /api/outcomes
   "notes": "Digital catalog listing went live"
 }
 ```
+
+## Phase 5 — Write-endpoint auth, Command Center dashboard, data hygiene
+
+- `api/_lib/auth.js` — shared-secret gate (`x-elos-api-key` header) on the
+  four true server-to-server write endpoints: `receive-audit.js`,
+  `events.js`, `outcomes.js`, `feedback.js`. **Fails open with a console
+  warning until `ELOS_INGEST_KEY` is set** in Vercel, so nothing breaks
+  before the producer apps are updated to send the header.
+  `save-trial.js` was deliberately left unauthenticated — it's called by
+  ELOS's own public PWA (`trialForm.js`), and a "secret" shipped in
+  client-side JS isn't a secret.
+- New **Command Center** page (`views.js: renderIntelligence`, route
+  `#/intelligence`) — the first UI in ELOS that reads live from Supabase via
+  `/api/ecosystem-intelligence`, `/api/learning-summary`, `/api/list-events`.
+  Shows businesses + archetypes, department demand, acceptance-vs-outcome
+  learning table, and a recent-events feed. Added to the sidenav.
+- Data hygiene: deleted 4 leftover `"Test Curl Business"` junk observations
+  from `elos_observations` (early curl testing, not real data).
+
+## To fully enable write-endpoint auth (do this when ready — not urgent)
+1. Set `ELOS_INGEST_KEY` in Vercel (Production + Preview) to:
+   `s8eNcwIWyjDDtqJV5x0TSoJAzUtIhEETUOFk6KCkeSw`
+   (or generate your own — any long random string works)
+2. Update whichever app(s) call `receive-audit`/`events`/`outcomes`/`feedback`
+   (business-health-audit, cablink, flowledger, marketplace) to send header:
+   `x-elos-api-key: s8eNcwIWyjDDtqJV5x0TSoJAzUtIhEETUOFk6KCkeSw`
+3. Until step 1 is done, these endpoints remain open (by design, logged).
+
+## Also check in Vercel (cleanup, low priority)
+- `ELOS_API_URL` — appears unused by anything in this repo now; confirm no
+  other app depends on it before removing.
+- `GITHUB_REPO` — leftover from the pre-Supabase era, safe to remove if
+  still present (GITHUB_TOKEN was already removed).

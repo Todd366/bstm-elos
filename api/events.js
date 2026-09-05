@@ -1,4 +1,5 @@
 const { applyCors } = require("./_lib/cors");
+const { requireApiKey } = require("./_lib/auth");
 const store = require("./_lib/supabase");
 
 // Generic ELOS event ingestion — System 02 of the ELOS spec.
@@ -16,6 +17,7 @@ module.exports = async function handler(req, res) {
     res.status(405).json({ error: "Only POST allowed" });
     return;
   }
+  if (!requireApiKey(req, res)) return;
 
   const body = req.body || {};
   if (!body.event_type || typeof body.event_type !== "string") {
