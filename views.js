@@ -22,31 +22,43 @@ function outcomeBadge(outcome) {
 
 /* ---------------- Dashboard ---------------- */
 async function renderDashboard(view) {
-  const trials = await ELOSDB.getAll('trials');
-  const drafts = trials.filter(t => t.status === 'draft');
-  const submitted = trials.filter(t => t.status === 'submitted');
-  const sc = computeScorecard(trials);
-  const recent = [...trials].sort((a, b) => (b.updated_at || '').localeCompare(a.updated_at || '')).slice(0, 5);
+  const localTrials = await ELOSDB.getAll('trials');
+  const drafts = localTrials.filter(t => t.status === 'draft');
 
+  let remoteTrials = [];
   let activeArchetypes = '—', activePrinciples = '—';
   try {
-    const [patternsRes, principlesRes] = await Promise.all([
+    const [trialsRes, patternsRes, principlesRes] = await Promise.all([
+      fetch('/api/trials').then(r => r.json()),
       fetch('/api/patterns').then(r => r.json()),
       fetch('/api/principles').then(r => r.json()),
     ]);
+    remoteTrials = trialsRes.trials || [];
     activeArchetypes = (patternsRes.patterns || []).filter(p => p.status === 'ACTIVE').length;
     activePrinciples = (principlesRes.principles || []).filter(p => p.status === 'ACTIVE').length;
   } catch (err) {
-    // Offline or API unreachable — dashboard still works, just shows '—' for these two live-only cards.
+    // Offline or API unreachable — dashboard still works with local-only data.
   }
+
+  // Submitted count = confirmed/synced trials in Supabase (the real source of truth),
+  // not local status flags — a trial submitted from a DIFFERENT device still counts.
+  const submittedCount = remoteTrials.length;
+  const totalCount = drafts.length + submittedCount;
+  const sc = computeScorecard(localTrials);
+
+  const recentLocal = localTrials.map(t => ({ ...t, _when: t.updated_at || '', _submitted: t.status === 'submitted' }));
+  const recentRemote = remoteTrials
+    .filter(rt => !localTrials.some(lt => lt.trial_id === rt.trial_id)) // avoid double-counting this device's own synced trials
+    .map(rt => ({ business_name: rt.title, trial_id: rt.trial_id, trial_outcome: (rt.data && rt.data.trial_outcome) || null, _when: rt.updated_at || '', _submitted: true, _remote: true }));
+  const recent = [...recentLocal, ...recentRemote].sort((a, b) => (b._when || '').localeCompare(a._when || '')).slice(0, 5);
 
   view.innerHTML = `
     <h1>Dashboard</h1>
     <p class="subtitle">Field intelligence operating view — BSTM 100 Trials & ELOS</p>
 
     <div class="grid">
-      <div class="card"><div class="num">${trials.length}</div><div class="label">Total Trials</div></div>
-      <div class="card"><div class="num">${submitted.length}</div><div class="label">Submitted</div></div>
+      <div class="card"><div class="num">${totalCount}</div><div class="label">Total Trials</div></div>
+      <div class="card"><div class="num">${submittedCount}</div><div class="label">Submitted</div></div>
       <div class="card"><div class="num">${drafts.length}</div><div class="label">Draft Trials</div></div>
       <div class="card"><div class="num">${activeArchetypes}</div><div class="label">Active Archetypes</div></div>
       <div class="card"><div class="num">${activePrinciples}</div><div class="label">Active Principles</div></div>
@@ -65,12 +77,12 @@ async function renderDashboard(view) {
         <thead><tr><th>Trial</th><th>Business</th><th>Status</th><th>Outcome</th><th>Updated</th></tr></thead>
         <tbody>
           ${recent.map(t => `
-            <tr onclick="location.hash='#/trials/${t.id}'" style="cursor:pointer">
+            <tr onclick="location.hash='${t._remote ? '#/trials/remote/' + t.trial_id : '#/trials/' + t.id}'" style="cursor:pointer">
               <td>${t.trial_id || '(draft)'}</td>
               <td>${t.business_name || '—'}</td>
-              <td>${t.status === 'submitted' ? '<span class="badge badge-good">Submitted</span>' : '<span class="badge badge-outline">Draft</span>'}</td>
+              <td>${t._submitted ? '<span class="badge badge-good">Submitted</span>' : '<span class="badge badge-outline">Draft</span>'}</td>
               <td>${outcomeBadge(t.trial_outcome)}</td>
-              <td>${(t.updated_at || '').slice(0, 10)}</td>
+              <td>${(t._when || '').slice(0, 10)}</td>
             </tr>`).join('')}
         </tbody>
       </table>` : `<div class="empty"><div class="big">🌱</div>No trials yet. Start your first field visit.</div>`}
@@ -79,11 +91,36 @@ async function renderDashboard(view) {
 
 /* ---------------- Trials Archive + Viewer ---------------- */
 async function renderTrialsList(view) {
-  const trials = (await ELOSDB.getAll('trials')).sort((a, b) => (b.updated_at || '').localeCompare(a.updated_at || ''));
+  view.innerHTML = `<h1>Trial Archive</h1><p class="subtitle">Loading…</p>`;
+
+  const localTrials = await ELOSDB.getAll('trials');
+  let remoteTrials = [];
+  try {
+    const res = await fetch('/api/trials').then(r => r.json());
+    remoteTrials = res.trials || [];
+  } catch (err) {
+    // Offline — show local trials only, no error state needed for this page.
+  }
+
+  const remoteOnly = remoteTrials
+    .filter(rt => !localTrials.some(lt => lt.trial_id === rt.trial_id))
+    .map(rt => ({
+      id: null,
+      trial_id: rt.trial_id,
+      business_name: (rt.data && rt.data.business_name) || rt.title,
+      category: (rt.data && rt.data.category) || null,
+      trial_outcome: (rt.data && rt.data.trial_outcome) || null,
+      overall_score: (rt.data && rt.data.overall_score) || null,
+      status: 'submitted',
+      updated_at: rt.updated_at,
+      _remote: true,
+    }));
+
+  const trials = [...localTrials, ...remoteOnly].sort((a, b) => (b.updated_at || '').localeCompare(a.updated_at || ''));
 
   view.innerHTML = `
     <h1>Trial Archive</h1>
-    <p class="subtitle">${trials.length} trial${trials.length === 1 ? '' : 's'} recorded</p>
+    <p class="subtitle">${trials.length} trial${trials.length === 1 ? '' : 's'} recorded — confirmed trials load live from ELOS, drafts stay on this device until submitted</p>
     <div class="filter-row">
       <input type="text" id="fSearch" placeholder="Search business / trial ID…">
       <select id="fOutcome">
@@ -116,13 +153,13 @@ async function renderTrialsList(view) {
         <tbody>
           ${filtered.map(t => `
             <tr>
-              <td onclick="location.hash='#/trials/${t.id}'" style="cursor:pointer">${t.trial_id || '(draft)'}</td>
-              <td onclick="location.hash='#/trials/${t.id}'" style="cursor:pointer">${t.business_name || '—'}</td>
+              <td onclick="location.hash='${t._remote ? '#/trials/remote/' + t.trial_id : '#/trials/' + t.id}'" style="cursor:pointer">${t.trial_id || '(draft)'}</td>
+              <td onclick="location.hash='${t._remote ? '#/trials/remote/' + t.trial_id : '#/trials/' + t.id}'" style="cursor:pointer">${t.business_name || '—'}</td>
               <td>${t.category || '—'}</td>
               <td>${outcomeBadge(t.trial_outcome)}</td>
               <td>${t.overall_score ? t.overall_score + '/10' : '—'}</td>
               <td>${t.status === 'submitted' ? '<span class="badge badge-good">Submitted</span>' : '<span class="badge badge-outline">Draft</span>'}</td>
-              <td><button class="btn btn-sm" onclick="location.hash='#/new/${t.id}'">Edit</button></td>
+              <td>${t._remote ? '' : `<button class="btn btn-sm" onclick="location.hash='#/new/${t.id}'">Edit</button>`}</td>
             </tr>`).join('')}
         </tbody>
       </table>` : `<div class="empty"><div class="big">🔍</div>No trials match those filters.</div>`;
@@ -157,6 +194,29 @@ async function renderTrialViewer(view, id) {
     toast('Trial deleted');
     location.hash = '#/trials';
   };
+}
+
+/* Read-only viewer for confirmed trials that live only in ELOS (Supabase),
+   e.g. the original 6 field trials — never had a local draft on this device. */
+async function renderRemoteTrialViewer(view, trialId) {
+  view.innerHTML = `<h1>Trial</h1><p class="subtitle">Loading…</p>`;
+  let payload;
+  try {
+    payload = await fetch('/api/trials').then(r => r.json());
+  } catch (err) {
+    view.innerHTML = `<h1>Trial</h1><div class="empty"><div class="big">⚠️</div>Couldn't reach the ELOS API.</div>`;
+    return;
+  }
+  const t = (payload.trials || []).find(rt => rt.trial_id === trialId);
+  if (!t) { view.innerHTML = `<div class="empty">Trial not found.</div>`; return; }
+
+  view.innerHTML = `
+    <h1>${t.title || t.trial_id}</h1>
+    <p class="subtitle">${t.trial_id} <span class="badge badge-good">Confirmed in ELOS</span></p>
+    <div class="btn-row"><a class="btn" href="#/trials">← Back to Archive</a></div>
+    <h2>Field Record</h2>
+    <div class="trial-doc">${(t.content_md || '(no content)').replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))}</div>
+  `;
 }
 
 /* ---------------- Patterns (archetypes) ---------------- */
@@ -356,7 +416,7 @@ async function renderScorecard(view) {
   const sc = computeScorecard(trials);
   view.innerHTML = `
     <h1>Scorecard</h1>
-    <p class="subtitle">Learning metrics computed from ${sc.total} submitted trial${sc.total === 1 ? '' : 's'}</p>
+    <p class="subtitle">Learning metrics computed from ${sc.total} trial${sc.total === 1 ? '' : 's'} submitted from this device — the 6 original confirmed field trials aren't included here yet (their structured scoring data lives only as prose in ELOS, not as the numeric fields this page needs)</p>
     <div class="grid">
       <div class="card"><div class="num">${sc.learningYield.toFixed(1)}%</div><div class="label">Learning Yield</div></div>
       <div class="card"><div class="num">${sc.driftVelocity.toFixed(2)}</div><div class="label">Belief Drift Velocity</div></div>

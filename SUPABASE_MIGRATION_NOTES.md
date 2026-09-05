@@ -187,3 +187,36 @@ of how the archetype system was discovered from the first 6 trials, migrated
 into Supabase in Phase 1 with real trial evidence behind them. That's
 different from ongoing pattern/principle generation, which is now 100%
 automatic going forward.
+
+## Phase 7 — bugfix: Dashboard/Trial Archive showed 0 trials despite 6 confirmed
+
+Root cause: `renderDashboard`/`renderTrialsList`/`renderTrialViewer` only ever
+read the LOCAL device's IndexedDB `trials` store. The 6 original confirmed
+field trials (BSTM-100T-001..006) were migrated straight into Supabase
+`elos_trials` in Phase 1 and never existed in any device's local IndexedDB —
+so any fresh device (or after a data reset) correctly showed 0, because
+locally there genuinely was nothing. Same category of bug as the
+patterns/principles one you caught — local-only storage presented as if it
+were the full picture.
+
+Fixed:
+- `api/trials.js` (GET, read-only) — lists all trials from `elos_trials`.
+- `renderTrialsList` now merges local drafts with live Supabase trials
+  (dedup by `trial_id`, local device copy wins if both exist). Remote-only
+  trials show without Edit/Delete (they're the confirmed record, not this
+  device's draft) and route to a new read-only viewer.
+- `renderRemoteTrialViewer` (new) + route `#/trials/remote/:trial_id` — shows
+  the confirmed trial's field record for trials that live only in ELOS.
+- `renderDashboard`'s Total/Submitted/Draft counts now reflect local drafts +
+  live Supabase submissions combined, not local-only.
+
+**Not fully fixed (scoped out, documented honestly instead):** the Scorecard
+page's Learning Yield / Drift Velocity / Predictive Accuracy / Uncertainty
+Rate / Error Digestion Speed still compute from local trials only. The 6
+original trials' structured scoring fields (capability outcomes, assumption
+confidence deltas) were captured as prose in their original `.md` files, not
+migrated into `elos_trials.data` as structured JSON — so there's nothing
+structured to merge in yet. Scorecard's subtitle now says so explicitly
+instead of silently under-reporting. If you want this fully fixed, the 6
+original trial markdown files need their scoring fields re-parsed into
+`elos_trials.data` — flag it and I'll do that pass.

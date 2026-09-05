@@ -28,6 +28,8 @@ async function router() {
       setActiveNav('dashboard'); await renderDashboard(view);
     } else if (route === 'new') {
       setActiveNav('new'); await renderTrialForm(view, parts[1] || null);
+    } else if (route === 'trials' && parts[1] === 'remote' && parts[2]) {
+      setActiveNav('trials'); await renderRemoteTrialViewer(view, parts[2]);
     } else if (route === 'trials' && parts[1]) {
       setActiveNav('trials'); await renderTrialViewer(view, parts[1]);
     } else if (route === 'trials') {
