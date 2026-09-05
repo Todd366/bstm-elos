@@ -145,3 +145,45 @@ Found while verifying Phase 5 in production:
   Supabase using the same computation `detectPatterns()` performs, so the
   dashboard isn't empty on first load. It will self-correct going forward:
   the next real `/api/receive-audit` call recomputes and overwrites this row.
+
+## Phase 6 — Patterns/principles are now engine-generated, not hand-authored
+
+You were right to flag this: `renderPatterns`/`renderPrinciples` were literally
+`prompt()` dialogs writing free-typed text into local IndexedDB — completely
+disconnected from what the engine actually detects. Fixed at the root:
+
+- `intelligence/patternPromotion.js` — turns `detectPatterns()` output into
+  individually addressable rows in `elos_patterns`, each with a
+  system-generated ID (`AUTO-ECO-<weakness>` / `AUTO-IND-<industry>-<weakness>`).
+  Auto-promotes CANDIDATE → ACTIVE once `percentage >= 60` AND `sampleSize >= 5`;
+  auto-retires ACTIVE → RETIRED if evidence later drops below 30%. Wired into
+  `api/receive-audit.js` — runs on every audit, no human involved.
+- `api/outcomes.js` now auto-drafts an EXPERIMENTAL principle
+  (`AUTO-PRIN-<archetype>-dept<N>`) whenever the same archetype+department
+  combination produces 2+ negative outcomes — assembled from the actual
+  recorded evidence, flagged for human review, never duplicated.
+- `api/patterns.js` + `api/principles.js` (GET, read-only) — the actual "read
+  what ELOS is saying" surface.
+- `views.js`: `renderPatterns`/`renderPrinciples` rewritten to be read-only,
+  fetching live from those two endpoints. The `➕ New Pattern`/`➕ New
+  Principle` buttons and their `prompt()`-based editors are gone entirely —
+  there is no UI path left to hand-author one.
+- Dashboard's "Active Archetypes"/"Active Principles" cards now count live
+  ACTIVE rows from the API instead of the (now permanently empty) local
+  IndexedDB stores.
+- Backfilled 4 `CANDIDATE`-status ecosystem patterns directly in Supabase to
+  match what the code would produce (none cross the 60% promotion threshold
+  yet with only 11 audited businesses — that's accurate, not a bug).
+
+**Not touched (deliberately):** the offline in-app Sentinel self-check
+(`#/sentinel`, distinct from the CI Sentinel Audit) still references the now
+permanently-empty local `patterns`/`principles` IndexedDB stores for a
+completeness score. It defaults to 100% when those arrays are empty, which is
+harmless, but is now vestigial. Low priority — flag if you want it removed.
+
+**The 03_pattern_intelligence / 04_organizational_principles markdown files**
+in the repo remain as-is — they're the original human-reviewed documentation
+of how the archetype system was discovered from the first 6 trials, migrated
+into Supabase in Phase 1 with real trial evidence behind them. That's
+different from ongoing pattern/principle generation, which is now 100%
+automatic going forward.

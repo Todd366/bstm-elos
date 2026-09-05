@@ -26,7 +26,7 @@ function calculateAcceptanceRate(learningLog, departmentId) {
  * reality confirmed (or refuted) it. This is the actual "learning" the ELOS
  * spec's System 13/14 (Action & Outcome Engine, Learning Engine) describe.
  */
-function recordOutcome(businessId, departmentId, recommendationId, result, expected, actual) {
+function recordOutcome(businessId, departmentId, recommendationId, result, expected, actual, archetype) {
   // result: "positive" | "negative" | "neutral"
   return {
     businessId,
@@ -35,6 +35,7 @@ function recordOutcome(businessId, departmentId, recommendationId, result, expec
     result,
     expected: expected || null,
     actual: actual || null,
+    archetype: archetype || null,
     recordedAt: new Date().toISOString(),
   };
 }

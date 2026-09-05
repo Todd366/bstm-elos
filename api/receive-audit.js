@@ -8,6 +8,7 @@ const { matchDepartments } = require("../intelligence/matcher");
 const { generateRecommendations } = require("../intelligence/recommender");
 const { calculateConfidence } = require("../intelligence/confidence");
 const { calculateAcceptanceRate, calculateOutcomeSuccessRate } = require("../intelligence/learning");
+const { buildAutoPatternRows } = require("../intelligence/patternPromotion");
 
 const departments = require("../00_core/departments.json");
 const rules = require("../00_core/rules.json");
@@ -46,6 +47,12 @@ module.exports = async function handler(req, res) {
     const allProfiles = await store.listAllBusinessProfiles();
     const patternResult = detectPatterns(allProfiles, rules);
     await store.upsertPatternScan(patternResult);
+
+    // Auto-generate/promote individually addressable pattern rows — the
+    // engine writes these, not a human. See intelligence/patternPromotion.js.
+    const existingStatuses = await store.getAutoPatternStatuses();
+    const autoPatternRows = buildAutoPatternRows(patternResult, existingStatuses);
+    await store.upsertAutoPatternRows(autoPatternRows);
 
     let matches = matchDepartments(profile.weaknesses, departments, weights.matchThreshold);
     matches = applyArchetypeGuardrail(matches, archetypeResult);
