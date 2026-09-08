@@ -29,9 +29,9 @@ async function renderDashboard(view) {
   let activeArchetypes = '—', activePrinciples = '—';
   try {
     const [trialsRes, patternsRes, principlesRes] = await Promise.all([
-      fetch('/api/trials').then(r => r.json()),
-      fetch('/api/patterns').then(r => r.json()),
-      fetch('/api/principles').then(r => r.json()),
+      fetch('/api/read/trials').then(r => r.json()),
+      fetch('/api/read/patterns').then(r => r.json()),
+      fetch('/api/read/principles').then(r => r.json()),
     ]);
     remoteTrials = trialsRes.trials || [];
     activeArchetypes = (patternsRes.patterns || []).filter(p => p.status === 'ACTIVE').length;
@@ -96,7 +96,7 @@ async function renderTrialsList(view) {
   const localTrials = await ELOSDB.getAll('trials');
   let remoteTrials = [];
   try {
-    const res = await fetch('/api/trials').then(r => r.json());
+    const res = await fetch('/api/read/trials').then(r => r.json());
     remoteTrials = res.trials || [];
   } catch (err) {
     // Offline — show local trials only, no error state needed for this page.
@@ -202,7 +202,7 @@ async function renderRemoteTrialViewer(view, trialId) {
   view.innerHTML = `<h1>Trial</h1><p class="subtitle">Loading…</p>`;
   let payload;
   try {
-    payload = await fetch('/api/trials').then(r => r.json());
+    payload = await fetch('/api/read/trials').then(r => r.json());
   } catch (err) {
     view.innerHTML = `<h1>Trial</h1><div class="empty"><div class="big">⚠️</div>Couldn't reach the ELOS API.</div>`;
     return;
@@ -225,7 +225,7 @@ async function renderPatterns(view) {
 
   let payload;
   try {
-    payload = await fetch('/api/patterns').then(r => r.json());
+    payload = await fetch('/api/read/patterns').then(r => r.json());
   } catch (err) {
     view.innerHTML = `<h1>Pattern Library</h1><div class="empty"><div class="big">⚠️</div>Couldn't reach the ELOS API.<br><span style="font-size:11px;color:var(--text-faint)">${err.message}</span></div>`;
     return;
@@ -258,7 +258,7 @@ async function renderPrinciples(view) {
 
   let payload;
   try {
-    payload = await fetch('/api/principles').then(r => r.json());
+    payload = await fetch('/api/read/principles').then(r => r.json());
   } catch (err) {
     view.innerHTML = `<h1>Principles Library</h1><div class="empty"><div class="big">⚠️</div>Couldn't reach the ELOS API.<br><span style="font-size:11px;color:var(--text-faint)">${err.message}</span></div>`;
     return;
@@ -330,9 +330,9 @@ async function renderIntelligence(view) {
   let eco, learning, events;
   try {
     [eco, learning, events] = await Promise.all([
-      fetch('/api/ecosystem-intelligence').then(r => r.json()),
-      fetch('/api/learning-summary').then(r => r.json()),
-      fetch('/api/list-events?limit=15').then(r => r.json()),
+      fetch('/api/read/ecosystem-intelligence').then(r => r.json()),
+      fetch('/api/read/learning-summary').then(r => r.json()),
+      fetch('/api/read/list-events?limit=15').then(r => r.json()),
     ]);
   } catch (err) {
     view.innerHTML = `<h1>Command Center</h1><div class="empty"><div class="big">⚠️</div>Couldn't reach the live ELOS API.<br><span style="font-size:11px;color:var(--text-faint)">${err.message}</span></div>`;

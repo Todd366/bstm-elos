@@ -6,7 +6,7 @@ function escSafe(s) {
 async function renderObservations(view) {
   view.innerHTML = `<h1>Observations Inbox</h1><p class="subtitle">Loading...</p>`;
   try {
-    const res = await fetch('/api/list-observations');
+    const res = await fetch('/api/read/list-observations');
     const data = await res.json();
     if (!data.observations || !data.observations.length) {
       view.innerHTML = `<h1>Observations Inbox</h1><p class="subtitle">First proof ELOS is receiving real ecosystem data.</p><div class="empty">No observations received yet.</div>`;

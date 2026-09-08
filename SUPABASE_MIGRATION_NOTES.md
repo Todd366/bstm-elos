@@ -220,3 +220,35 @@ structured to merge in yet. Scorecard's subtitle now says so explicitly
 instead of silently under-reporting. If you want this fully fixed, the 6
 original trial markdown files need their scoring fields re-parsed into
 `elos_trials.data` — flag it and I'll do that pass.
+
+## Phase 7.1 — CRITICAL: Phase 7 deploy silently failed, production was stuck on Phase 6
+
+Discovered while checking deployment status before starting the auth rollout:
+Vercel's **Hobby plan caps a deployment at 12 serverless functions**. Phase 6
+was exactly at 12. Adding `api/trials.js` in Phase 7 pushed it to 13, and the
+build failed with `exceeded_serverless_functions_per_deployment`. Vercel kept
+serving the last successful build (Phase 6) — **the Phase 7 trials fix never
+actually went live**, with no obvious error surfaced anywhere in the terminal
+output from the push itself.
+
+Fixed by consolidation, not by cutting features:
+- 8 thin GET-only endpoints merged into one dynamic route,
+  `api/read/[resource].js` (`/api/read/ecosystem-intelligence`,
+  `/api/read/learning-summary`, `/api/read/list-observations`,
+  `/api/read/list-events`, `/api/read/patterns`, `/api/read/principles`,
+  `/api/read/trials`, `/api/read/intelligence-report`).
+- Deleted the 8 standalone files those replaced.
+- Updated every front-end fetch() call site (`views.js`, `observations.js`)
+  to the new paths.
+- Write endpoints (`receive-audit`, `save-trial`, `feedback`, `outcomes`,
+  `events`) stay as separate functions — those need their own request
+  handling and shouldn't share a dispatcher.
+- **New total: 6 serverless functions** (was 13). 6 slots of headroom before
+  hitting the Hobby-plan ceiling again.
+- `docs-elos-connector-snippet.js` updated with the `x-elos-api-key` header
+  and two missing helpers (`sendOutcomeToELOS`, `sendEventToELOS`) — this is
+  the reference file being rolled out to the other 4 BSTM apps next.
+
+**Lesson for future phases:** check function count before adding new API
+files. Rule of thumb — prefer adding a `resource` case to `api/read/[resource].js`
+over a new standalone file for anything read-only.
